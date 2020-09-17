@@ -1,6 +1,6 @@
 # BoostCourse
 
-### week1
+## week1
 
 - 인터페이스 빌더의 객체를 코드와 연결
   - IBOutlet
@@ -22,7 +22,7 @@
 - 디자인패턴
   - MVC패턴
 
-### week2
+## week2
 
 
 
