@@ -1,5 +1,14 @@
 # BoostCourse
 
+## 궁금한 것
+
+- 퀵헬프, 점프투데피니션, 개발자문서(레퍼런스) 활용방법
+  - https://www.edwith.org/boostcourse-ios/lecture/16883/ (첫번째 영상 참고)
+- 사용자 정보 보안 승인 (info.plist)
+  - 예) 사진첩에 접근 허용 요청하기
+  - 이런 사용자 정보에 접근할때 세팅하지 않으면 앱스토어에 반려사유가 된다.
+  - https://www.edwith.org/boostcourse-ios/lecture/16883/ (두전째 영상 참고)
+
 ## week1
 
 - 인터페이스 빌더의 객체를 코드와 연결
