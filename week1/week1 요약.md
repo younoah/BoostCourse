@@ -1,14 +1,111 @@
+## 목차
+
+- [인터페이스 빌더의 객체를 코드와 연결](#인터페이스 빌더의 객체를 코드와 연결)
+  - [IBOutlet](#IBOutlet)
+  - [IBAction](#IBAction)
+- Cocoa Touch
+  - UIKit
+    - Foundation
+    - UIControl
+    - UIButton
+    - UILabel
+    - UISlider
+  - AVFoundation
+    - AVAudioPlayer
+    - Timer
+- 오토레이아웃
+  - 코드구현
+  - 인터페이스빌더
+- iOS 뷰의 체계
+- 디자인패턴
+  - MVC패턴
+
+
+
 ## 인터페이스 빌더의 객체를 코드와 연결
 
 ### IBOutlet
 
 - 인터페이스 빌더의 객체를 코드의 변수로 연결한다.
 
+### IBOutlet 뷰객체 생성 방법
+
+1. 인터페이스 빌더에서 뷰객체를 생성하고 직접연결
+
+2. 코드로 **뷰객체 생성메서드** 구현 : 슈퍼뷰(뷰컨트롤러의 최상위뷰)에 뛰우기
+
+   ```swift
+   @IBOutlet var playPauseButton: UIButton!
+   
+   override func viewDidLoad() {
+           super.viewDidLoad()
+           self.addPlayPauseButton() // 버튼 뷰객체 생성메서드를 슈퍼뷰가 불러와질 때 실행
+       }
+   
+   func addPlayPauseButton() {
+           let button: UIButton = UIButton(type: UIButton.ButtonType.custom)
+           button.translatesAutoresizingMaskIntoConstraints = false
+   
+           self.view.addSubview(button)
+           
+           button.setImage(UIImage(named: "button_play"), for: UIControl.State.normal)
+           button.setImage(UIImage(named: "button_pause"), for: UIControl.State.selected)
+           
+     			// 뷰 객체와 IBaction 메서드를 연결하기위해 addTarget메서드를 사용한다.
+           button.addTarget(self, action: #selector(self.touchUpPlayPauseButton(_:)), for: UIControl.Event.touchUpInside)
+           
+           let centerX: NSLayoutConstraint
+           centerX = button.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+           
+           let centerY: NSLayoutConstraint
+           centerY = NSLayoutConstraint(item: button, attribute: NSLayoutConstraint.Attribute.centerY, relatedBy: NSLayoutConstraint.Relation.equal, toItem: self.view, attribute: NSLayoutConstraint.Attribute.centerY, multiplier: 0.8, constant: 0)
+           
+           let width: NSLayoutConstraint
+           width = button.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
+           
+           let ratio: NSLayoutConstraint
+           ratio = button.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 1)
+           
+           centerX.isActive = true
+           centerY.isActive = true
+           width.isActive = true
+           ratio.isActive = true
+           
+           self.playPauseButton = button // IBOutlet과 연결
+       }
+   ```
+
 ### IBAction
 
 - 인터페이스 빌더의 객체에서 발생한 액션과 코드의 메서드로 연결하여 발생한 액션에 따른 동작을 정의할 수 있다.
 
 > UIKit에는 UIButton, UISwitch, UIStepper 등 UIControl을 상속받은 다양한 컨트롤 클래스가 있다. 이런 컨트롤 객체에서 발생한 다양한 이벤트 종류를 특정 액션 메서드에 연결할 수 있다. 즉, 컨트롤 객체에서 특정 이벤트가 발생하면 미리 지정해 둔 타겟의 액션을 호출 할 수 있다.
+
+### IBAction 뷰객체의 Event와 연결하는 방법
+
+1. 인터페이스 빌더에서 뷰객체의 Event와 직접연결
+
+2. **UI~~.addTarget **: 내가 원하는 뷰객체생성 메서드 내부 혹은 IBOutlet에서  addTarget메서드로  연결
+
+   ```swift
+   // 위에 addPlayPauseButton메서드에서
+   button.addTarget(self, action: #selector(self.touchUpPlayPauseButton(_:)), for: UIControl.Event.touchUpInside)
+   // 이부분이 addTarget
+   
+   @IBAction func touchUpPlayPauseButton(_ sender: UIButton) {
+       sender.isSelected = !sender.isSelected
+       if sender.isSelected {
+         self.player?.play()
+       } else {
+         self.player?.pause()
+       }
+       if sender.isSelected {
+         self.makeAndFireTimer()
+       } else {
+         self.invalidateTimer()
+       }
+   }
+   ```
 
 #### 컨트롤 이벤트의 종류
 
