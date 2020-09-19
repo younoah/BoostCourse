@@ -200,7 +200,7 @@ func setAttributedTitle(NSAttributedString?, for: UIControlState)
 
 ## UISlider
 
-![uislider](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/uislider.png)
+![uislider](./uislider.png)
 
 ### 슬라이더 생성 3단계
 
@@ -507,7 +507,7 @@ iPhone4, iPhoneSE, iPhone8, iPhone8 Plus 그리고 iPhoneX등 다양한 사이�
 
 오토레이아웃의 속성은 정렬 사각형을 기반으로 합니다.
 
-![오토레이아웃](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/오토레이아웃.png)
+![오토레이아웃](./오토레이아웃.png)
 
 - Width : 정렬 사각형의 너비
 - Height : 정렬 사각형의 높이
@@ -528,7 +528,7 @@ iPhone4, iPhoneSE, iPhone8, iPhone8 Plus 그리고 iPhoneX등 다양한 사이�
   - 안전 영역은 iOS 11부터 사용할 수 있습니다.
   - iOS 11 미만의 버전에서는 상/하단 레이아웃 가이드를 사용합니다.
 
-![안전영역](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/안전영역.png)
+![안전영역](./안전영역.png)
 
 안전 영역 레이아웃 가이드는 UIView클래스의 var safeAreaLayoutGuide: UILayoutGuide로 접근할 수 있습니다.
 
@@ -536,7 +536,7 @@ iPhone4, iPhoneSE, iPhone8, iPhone8 Plus 그리고 iPhoneX등 다양한 사이�
 
 제약은 뷰 스스로 또는 뷰 사이의 관계를 속성을 통하여 정의합니다. 제약은 방정식으로 나타낼 수 있습니다. 예제 방정식을 통해 자세히 알아봅시다.
 
-![제약조건](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/제약조건.png)
+![제약조건](./제약조건.png)
 
 - Item1 : 방정식에 있는 첫 번째 아이템(B View) 입니다. 첫 번째 아이템은 반드시 뷰 또는 레이아웃 가이드이어야 합니다.
 - Attribute1 : 첫번째 아이템에 대한 속성입니다. 이 경우, B View의 리딩입니다.
@@ -585,23 +585,23 @@ iPhone4, iPhoneSE, iPhone8, iPhone8 Plus 그리고 iPhoneX등 다양한 사이�
 
 1. 객체 라이브러리에서 버튼과 레이블을 추가해줍니다. 이제 앵커를 활용하여 제약을 만들어봅시다.
 
-![앵커1](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/앵커1.png)
+![앵커1](./앵커1.png)
 
 2. @IBOutlet을 활용하여 인터페이스 빌더에서 ViewController.swift 파일로 버튼과 레이블을 연결해줍니다.
 
-![앵커2](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/앵커2.png)
+![앵커2](./앵커2.png)
 
 3. 버튼을 중앙에 배치하기 위해 버튼의 수평과 수직의 중앙 앵커를 뷰 컨트롤러의 뷰의 중앙에 기준을 잡아줍니다. 생성된 제약을 적용하기 위해선 isActive 프로퍼티의 값을 true로 설정해주면 됩니다.
 
 `translatesAutoresizingMaskIntoConstraints` : 오토레이아웃이 도입되기 전 뷰를 유연하게 표현할 수 있도록 오토리사이징 마스크를 사용하였습니다. 오토레이아웃을 사용하게 되면 기존의 오토리사징 마스크가 가지고 있던 제약조건이 자동으로 추가되기 때문에 충돌하게 될 가능성이 발생합니다. 그래서 translatesAutoresizingMaskIntoConstraints의 값을 false로 지정한 뒤 오토레이아웃을 적용해줍니다. 참고로 인터페이스 빌더에서 오토레이아웃을 적용한 경우에는 자동으로 값이 false로 설정됩니다. (참조: [translatesAutoresizingMaskIntoConstraints](https://developer.apple.com/documentation/uikit/uiview/1622572-translatesautoresizingmaskintoco))
 
-![앵커3](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/앵커3.png)
+![앵커3](./앵커3.png)
 
 4. 레이블의 수평 중앙을 버튼의 수평 중앙 앵커를 기준으로 제약을 생성한 후, 레이블의 하단 앵커를 버튼의 상단 앵커로부터 10만큼의 거리를 두도록 합니다. (상단 앵커기준으로 위로의 거리는 부호가 - 라는 점을 주목하세요.) 생성된 제약을 적용하기 위해 isActive 프로퍼티를 true로 설정해줍니다. 그림과 같이 레이블이 버튼의 상단에 자리 잡고 있는 것을 볼 수 있습니다.
 
 속성에 곱해지는 multiplier를 활용해 볼까요? 앵커를 활용하여 레이블의 너비가 버튼의 너비의 2배가 되도록 제약을 만들어봅시다.
 
-![앵커4](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/앵커4.png)
+![앵커4](./앵커4.png)
 
 5. 위의 코드를 추가하여 레이블의 너비가 버튼의 너비의 2배가 된 것을 확인할 수 있습니다.
 
@@ -650,7 +650,7 @@ var widthAnchor: NSLayoutDimension { get }
 > **view1.attr1 = view2.attr2 \* multiplier + constant**
 > **item.attribute = toItem.attribute \* multiplier + constant**
 
-![NSLayout](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout.png)
+![NSLayout](./NSLayout.png)
 
 
 
@@ -666,7 +666,7 @@ var widthAnchor: NSLayoutDimension { get }
  			  constant: 8.0)
 ```
 
-![NSLayout2](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout2.png)
+![NSLayout2](./NSLayout2.png)
 
 - button의 너비가 50보다 크거나 같도록 넓이 제약(Width Constraint)을 줄 수 있는 `NSLayoutConstraint` 인스턴스 생성 코드입니다.
 
@@ -680,7 +680,7 @@ var widthAnchor: NSLayoutDimension { get }
  			  constant: 50.0)
 ```
 
-![NSLayout3](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout3.png)
+![NSLayout3](./NSLayout3.png)
 
 - purpleBox가 superView를 기준으로 왼쪽(Leading) 간격은 50포인트, 오른쪽(Trailing) 간격은 50포인트로 설정합니다. (Connection to Superview)
 
@@ -702,7 +702,7 @@ var widthAnchor: NSLayoutDimension { get }
  			  constant: -50.0)
 ```
 
-![NSLayout4](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout4.png)
+![NSLayout4](./NSLayout4.png)
 
 - topField와 bottomField의 세로 사이의 간격을 10포인트로 설정합니다.(Vertical Layout)
 
@@ -716,7 +716,7 @@ NSLayoutConstraint(item: topField,
  			  constant: -10.0)
 ```
 
-![NSLayout5](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout5.png)
+![NSLayout5](./NSLayout5.png)
 
 - maroonView와 blueView의 간격이 없습니다. (Flush Views)
 
@@ -730,7 +730,7 @@ NSLayoutConstraint(item: topField,
  			  constant: 0.0)
 ```
 
-![NSLayout6](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout6.png)
+![NSLayout6](./NSLayout6.png)
 
 - button의 너비는 100포인트이고 우선도는 20으로 설정합니다. (Priority)
 
@@ -758,7 +758,7 @@ NSLayoutConstraint(item: button1,
  			  constant: 0.0)
 ```
 
-![NSLayout8](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout8.png)
+![NSLayout8](./NSLayout8.png)
 
 - flexibleButton의 너비 값이 70포인트보다 크거나 같고 100포인트보다 작거나 같도록 제약을 생성합니다. (Multiple Predicates)
 
@@ -780,7 +780,7 @@ NSLayoutConstraint(item: flexibleButton,
  			  constant: 100.0)
 ```
 
-![NSLayout9](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout9.png)
+![NSLayout9](./NSLayout9.png)
 
 - button1, button2, textField와 superView의 간격은 표준 간격(8포인트)이며 textField의 너비 값은 20포인트보다 크거나 같도록 제약을 생성합니다. (A Complete Line of Layout)
 
@@ -829,13 +829,13 @@ NSLayoutConstraint(item: flexibleButton,
  			  constant: -8.0)
 ```
 
-![NSLayout10](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout10.png)
+![NSLayout10](./NSLayout10.png)
 
 ### 3. Visual Format Language
 
 기호와 문자열을 이용하여 제약조건을 코드로 작성하는방법.
 
-![비주얼포메팅랭귀지](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/비주얼포메팅랭귀지.png)
+![비주얼포메팅랭귀지](./비주얼포메팅랭귀지.png)
 
 
 
@@ -845,7 +845,7 @@ NSLayoutConstraint(item: flexibleButton,
  H:|-[find]-[findNext]-[findField(>=20)]-|
 ```
 
-![NSLayout10](/Users/uno/Desktop/Dev/study/iOS/BoostCourse/week1/Note/NSLayout10.png)
+![NSLayout10](./NSLayout10.png)
 
 ## 오토레이아웃 인터페이스 빌더에서 구현하기
 
@@ -861,11 +861,11 @@ NSLayoutConstraint(item: flexibleButton,
 
 두 뷰 사이의 제약을 생성하기 위해, 뷰 중 하나를 클릭한 뒤 컨트롤(ctr) 키를 누른 상태에서 다른 뷰로 드래그합니다.
 
-![컨트롤드래그제약](/Users/uno/Desktop/컨트롤드래그제약.png)
+![컨트롤드래그제약](./컨트롤드래그제약.png)
 
 마우스를 원하는 뷰 위에서 놓을때, 인터페이스 빌더는 HUD 메뉴를 통해 생성 가능한 제약을 보여줍니다.
 
-![컨트롤드래그제약2](/Users/uno/Desktop/컨트롤드래그제약2.png)
+![컨트롤드래그제약2](./컨트롤드래그제약2.png)
 
 인터페이스 빌더는 오토레이아웃을 적용하려는 **아이템과 드래그 방향에 기반해 선택가능한 제약 조건을 지능적으로 제공**합니다. 만약 **수평으로 드래그했다면, 뷰 사이에 수평적인 공간을 설정할 선택권과 수직적으로 뷰를 정렬할 선택권**을 얻을 수 있습니다. 만약 **수직적으로 드래그 했다면, 수직적인 공간을 설정할 선택권과 수평적으로 뷰를 정렬한 선택권**을 얻게 됩니다. 두 제스처 모두 뷰의 상대적 크기와 같은 다른 옵션도 포함합니다.
 
@@ -877,7 +877,7 @@ NSLayoutConstraint(item: flexibleButton,
 
 > 현재는 Return(되돌리기), Align, Pin, Resolve, Embeded(스택뷰, 스크롤뷰,네비게이션/탭바 컨틀롤러 포함)으로 5가지가 있다.
 
-![제약툴](/Users/uno/Desktop/제약툴.png)
+![제약툴](./제약툴.png)
 
 ### 스택 툴(Stack Tool)
 
@@ -889,19 +889,19 @@ NSLayoutConstraint(item: flexibleButton,
 
 정렬하려는 뷰를 선택한 뒤, 정렬 툴을 선택하면 아래와 같은 팝오버 창이 뜹니다.
 
-![정렬툴](/Users/uno/Desktop/정렬툴.png)
+![정렬툴](./정렬툴.png)
 
 ### 핀 툴(Pin Tool)
 
 핀 툴은 뷰의 이웃과 연관된 뷰의 위치 또는 그 크기를 재빠르게 정의하도록 합니다. 고정되기 원하는 아이템의 위치나 크기를 선택하고 핀 툴을 클릭하세요. 인터페이스 빌더는 여러가지 옵션을 가진 팝오버뷰를 제공합니다.
 
-![핀툴](/Users/uno/Desktop/핀툴.png)
+![핀툴](./핀툴.png)
 
 ### 리졸브 툴(Resolve Tool)
 
 리졸브 툴은 오토레이아웃 문제 해결을 위한 도구로, 일반적인 오토레이아웃의 문제를 고치는 몇 가지 옵션을 제공합니다. 메뉴 절반 위의 옵션은 현재 선택된 뷰에 한해 영향을 줍니다. 절반 아래의 옵션은 씬(scene)에 있는 모든 뷰에 영향을 줍니다.
 
-![리졸브툴](/Users/uno/Desktop/리졸브툴.png)
+![리졸브툴](./리졸브툴.png)
 
 ## 모든 제약 생성하기
 
@@ -1005,7 +1005,7 @@ UIKit에서 기본이 되는 좌표계는 좌측 상단 모서리를 원점으�
 - 프레임(frame)은 뷰의 크기와 위치를 슈퍼뷰의 좌표계를 기준으로 나타냅니다. 
 - 바운드(bounds)는 뷰의 크기와 위치를 해당 뷰 자신의 좌표계를 기준으로 나타냅니다.
 
-![프레임과 바운드](/Users/uno/Desktop/프레임과 바운드.png)
+![프레임과 바운드](./프레임과 바운드.png)
 
 ### CGRect
 
@@ -1014,7 +1014,7 @@ UIKit에서 기본이 되는 좌표계는 좌측 상단 모서리를 원점으�
 - 첫번째로 뷰는 어디에 그려져야 할지 위치를 알아야 합니다. 
 - 두번째로는 위치로부터 어떤 크기로 그려져야할지를 알아야합니다.
 
-![CGRect](/Users/uno/Desktop/CGRect.png)
+![CGRect](./CGRect.png)
 
 ## 프로그래밍 디자인 패턴
 
