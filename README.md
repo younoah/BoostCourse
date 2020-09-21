@@ -1,6 +1,6 @@
 # BoostCourse
 
-## 궁금한 것
+## 찾아보기
 
 - 퀵헬프, 점프투데피니션, 개발자문서(레퍼런스) 활용방법
   - https://www.edwith.org/boostcourse-ios/lecture/16883/ (첫번째 영상 참고)
@@ -8,6 +8,9 @@
   - 예) 사진첩에 접근 허용 요청하기
   - 이런 사용자 정보에 접근할때 세팅하지 않으면 앱스토어에 반려사유가 된다.
   - https://www.edwith.org/boostcourse-ios/lecture/16883/ (두전째 영상 참고)
+
+- ARC Retina Cycle - week, strong
+  - https://shark-sea.kr/entry/iOS-ARC-strong-weak-unowned
 
 ## week1
 

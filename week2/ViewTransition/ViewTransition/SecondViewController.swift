@@ -8,6 +8,10 @@
 import UIKit
 
 class SecondViewController: UIViewController {
+    
+    // MARK:- properties
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var ageLabel: UILabel!
 
     //MARK:- 뷰 상태 변화 메서드
     override func viewDidLoad() {
@@ -19,8 +23,8 @@ class SecondViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        nameLabel.text = UserInformation.shared.name
-//        ageLabel.text = UserInformation.shared.age
+        self.nameLabel.text = UserInformation.shared.name
+        self.ageLabel.text = UserInformation.shared.age
         
         print("두번째 뷰컨트롤러의 뷰가 화면에 보여질 예정")
     }

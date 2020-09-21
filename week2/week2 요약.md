@@ -1,3 +1,20 @@
+## 목차
+
+- iOS 화면 전환
+  - 내비게이션
+  - 모달
+- 델리게이트 (디자인 패턴)
+- 싱글턴 (디자인 패턴)
+- UIImagePicker
+- Date
+  - UIDatePicker
+  - DateFormatter
+  - UIImagePickerController
+- 스택뷰
+- 타겟-액션 (디자인 패턴)
+- 제스처 인식기 (GestureRecognizer)
+- UITextField
+
 ## iOS 화면 전환
 
 ### 화면 전환 방법 종류
@@ -449,3 +466,557 @@ func textFieldShouldReturn(UITextField)
 - 액션메서드로 함수를 정의해서 상호작용하는 함수를 연결했지만 델리게이트를 사용하면 델리게이트에 미리 정의된 메서드를 불러와 그 메서드가 불러질때 어떤 역할을 수행할지 메서드 안에 정의를 하면 된다.
 - 이렇게 델리게이트의 메서드를 불러와서 정의하면 델리게이트를 채택한 뷰컨트롤러에서 알아서 메서드가 어떤 객체에 사용될지 절해서 잘 실행시켜준다(적재적소에 메서드가 실행될수 있는것은 델리게이트 안에 프로토콜로 정의가 되어있기 때문)
 - 델리게이트는 textField, button, 등이 있지만 대표적으로 listView와 collectionView에서 많이 사용한다.
+
+## UIImagePickerController
+
+델리게이트 디자인 패턴을 활용하중 클래스중 하나이다.
+
+> 참고 : https://www.edwith.org/boostcourse-ios/lecture/16883/
+
+### 예시
+
+```swift
+class ViewController: UIViewController {
+  lazy var imagePicker: UIImagePickerController = {
+          let picker: UIImagePickerController = UIImagePickerController()
+          picker.sourceType = .photoLibrary
+          picker.delegate = self //델리게이트 채용
+          return picker
+      }()
+
+  // 버튼클릭시 이미지피커 프레젠트 
+  @IBAction func touchUpSelectImageButton(_ sender: UIButton) {
+          present(imagePicker, animated: true, completion: nil)
+      }
+}
+// MARK:- ImagePicker Delegate
+// 이미지 이미지 피커는 UIImagePickerControllerDelegate & UINavigationControllerDelegate
+// 2개의 델리게이트를 반드시 채용해야한다.
+extension ViewController: UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+  	// 취소 눌렀을때 메서드
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+  	// 이미지를 선택했을때 
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let originalImage:UIImage =  info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.imageView.image = originalImage
+       }
+ 
+        dismiss(animated: true, completion: nil)
+    }
+    
+}
+```
+
+
+
+## 싱글턴
+
+- 싱글턴은 '특정 클래스의 인스턴스가 오직 하나임을 보장하는 객체'를 의미합니다. 
+- 싱글턴은 애플리케이션이 요청한 횟수와는 관계없이 이미 생성된 같은 인스턴스를 반환합니다. 
+- 즉, 애플리케이션 내에서 특정 클래스의 인스턴스가 딱 하나만 있기 때문에 다른 인스턴스들이 공유해서 사용할 수 있습니다.
+
+> 요청에 따라 인스턴스를 여러개 생성하게되면 메모리 효율이 안좋아진다. 하나의 인스턴스를 생성해놓고 저장해놓아 다른데서 요청이 들어오면 그것을 다시 꺼내어 쓰는 방식이다. 이는 인스턴스의 재사용을 하게 하여 효율적이다.
+
+### 싱글턴 내가 생성하는 방법
+
+- 새로운 싱글턴 타입을 만들기 위해서는 새로운 스위프트 파일을 생성한다.
+
+- 새로 만든 스위프트 파일에서 저장할 데이터의 형태를 클래스로 선언한다.
+
+  ```swift
+  // 예시 in UserInformation.swift
+  class UserInformation {
+    // shared라는 타입프로퍼티를 선언한다.
+    // 이 타입 프로퍼티로 인스턴스 1개를 생성해서 할당 하였기 때문에
+    // shared라는 타입프로퍼티를 호출하면 항상 똑같은 인스턴스를 사용한다.
+    // 보통 이 인스턴스 프로퍼티 명은 암묵적으로 shared, default를 많이 사용한다.
+    // 하지만 누구나 shared, default 이걸로 싱글턴으로 데이터를 저장하는것을 알고 있기때문에
+    // 보안에 약할수 있어서 프로퍼티명을 잘 정해주는것도 좋을것 같다.
+    static let shared: UserInformation = UserInformation()
+    
+    var name: String?
+    // age 프로퍼티는 숫자일텐데 String으로 한 이유는
+    // 텍스트 필드로 숫자를 입력받아도 자동으로 Stringd으로 인식하기 때문이다.
+    var age: String?
+  }
+  
+  // in FirstViewController - 텍스트 필드에 유저정보를 입력받을 뷰컨
+  // MARK:- 액션메서드
+      @IBAction func touchUpSetUpButton(_ sender: UIButton) {
+          UserInformation.shared.name = nameField.text
+          UserInformation.shared.age = ageField.text
+      }
+  
+  // in SecondViewController - 레이블을 통해 싱글턴 디자인패턴의 유저정보를 보여줄 뷰컨
+      override func viewWillAppear(_ animated: Bool) {
+          super.viewWillAppear(animated)
+          
+          self.nameLabel.text = UserInformation.shared.name
+          self.ageLabel.text = UserInformation.shared.age
+      }
+  ```
+
+  
+
+### Cocoa 프레임워크에서의 싱글턴 디자인 패턴
+
+Cocoa 프레임워크에서 싱글턴 디자인 패턴을 활용하는 대표적인 클래스를 소개합니다.
+싱글턴 인스턴스를 반환하는 팩토리 메서드나 프로퍼티는 일반적으로 `shared`라는 이름을 사용합니다.
+
+> - `FileManager`
+>   - 애플리케이션 파일 시스템을 관리하는 클래스입니다.
+>   - `FileManager.default`
+> - `URLSession`
+>   - URL 세션을 관리하는 클래스입니다.
+>   - `URLSession.shared`
+> - `NotificationCenter`
+>   - 등록된 알림의 정보를 사용할 수 있게 해주는 클래스입니다.
+>   - `NotificationCenter.default`
+> - `UserDefaults`
+>   - Key-Value 형태로 간단한 데이터를 저장하고 관리할 수 있는 인터페이스를 제공하는 데이터베이스 클래스입니다.
+>   - `UserDefaults.standard`
+> - `UIApplication`
+>   - iOS에서 실행되는 중앙제어 애플리케이션 객체입니다.
+>   - `UIApplication.shared`
+
+![singlton](./image/singlton.png)
+
+### 주의할 점
+
+- 싱글턴 디자인 패턴은 애플리케이션 내의 특정 클래스의 인스턴스가 하나만 존재하기 때문에 객체가 불필요하게 여러 개 만들어질 필요가 없는 경우에 많이 사용합니다. 
+- 예를 들면 환경설정, 네트워크 연결처리, 데이터 관리 등등이 있습니다. 
+- <u>하지만 멀티 스레드 환경에서 동시에 싱글턴 객체를 참조할 경우 원치 않은 결과를 가져올 수 있습니다.</u> 
+- 어떤 디자인 패턴을 활용하더라도 항상 긍정적인 면과 위험성을 함께 고려하여 활용하세요.
+
+## 스택뷰
+
+- 스택뷰는 여러 뷰들의 수평 또는 수직 방향의 선형적인 레이아웃의 인터페이스를 사용할 수 있도록 해줍니다. 
+- 스택뷰와 오토레이아웃 기능을 활용하여 디바이스의 방향과 화면크기에 따라 동적으로 적응할 수 있는 사용자 인터페이스를 만들 수 있습니다. 
+- 스택뷰의 레이아웃은 스택뷰의 `axis`, `distribution`, `alignment`, `spacing`과 같은 프로퍼티를 통해 조정합니다.
+
+### 스택뷰의 생성 방법
+
+방법1. 객체라이브러리에서 스택뷰를 캔버스에 추가하고 아에 들어갈 서브뷰를 여러개 추가하는 방식
+
+방법2. 기존의 합치고 싶은 여러개의 객체를 한번에 묶어서 임베디드인으로 스택뷰를 설정하는 방식
+
+>  참고 : https://www.edwith.org/boostcourse-ios/lecture/16884/
+
+### UIStackView클래스의 주요 프로퍼티
+
+- `var arrangedSubviews: [UIView]`: 스택뷰의 정렬된 뷰의 배열입니다. 스택뷰에 포함된 뷰들을 이 프로퍼티에 저장하고 관리합니다.
+- `var axis: UILayoutConstraintAxis`: 레이아웃의 방향을 결정합니다.(수직 vertical, 수평 horizontal)
+- `var distribution: UIStackViewDistribution`: 스택뷰에 포함된 뷰가 스택뷰 내에서 어떻게 배치(분배)될지 결정합니다.
+- `var spacing: CGFloat`: 스택뷰에 정렬된 뷰들 사이의 간격을 결정합니다. 기본 값은 0.0 입니다.
+
+### UIStackView 클래스의 주요 메서드
+
+- `func addArrangeSubview(UIView)`: `arrangedSubviews` 배열에 마지막 요소에 뷰를 추가합니다.
+- `func insertArrangedSubview(UIView, at: Int)`: `arrangedSubviews` 배열의 특정 인덱스에 뷰를 추가합니다.
+- `func removeArrangedSubview(UIView)`: 스택뷰의 `arrangedSubviews` 배열로부터 뷰를 제거합니다.
+
+```swift
+// 예시
+// UIStackView in Swift 3.0
+let stackView = UIStackView()
+
+stackView.axis = .horizontal
+stackView.distribution = .fillEqually
+stackView.alignment = .fill
+stackView.spacing = 8
+stackView.translatesAutoresizingMaskIntoConstraints = false
+
+// stackView에 View 추가
+stackView.addArrangedSubview(view1)
+
+// UIStackView Constraints
+stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+```
+
+## 타겟-액션 디자인 패턴
+
+### Target-Action 디자인 패턴
+
+- Target-Action 디자인 패턴에서 객체는 이벤트가 발생할 때 다른 객체에 메시지를 보내는 데 필요한 정보를 포함합니다. 
+- **액션**은 특정 이벤트가 발생했을 때 호출할 **메서드**를 의미합니다. 
+- **타겟**은 액션이 **호출될 객체**를 의미합니다. 
+- 이벤트 발생 시 전송된 메시지를 액션 메시지라고 하고, 타겟은 프레임워크 객체를 포함한 모든 객체가 될 수 있으나, 보통 컨트롤러가 되는 경우가 일반적입니다.
+
+```swift
+//예시
+UI객체.addTarget(타겟뷰컨트롤러,action: #selector(실행시킬IBAction메서드), for: UIControlEvents.TouchUpInside)
+```
+
+
+
+> 직접 타겟이 될 객체에 액션에 해당하는 메서드를 호출하면 될 텐데 굳이 Target과 Action을 지정하고 디자인 패턴으로 활용하는 이유가 궁금하죠? 왜 그럴까요?
+>
+> 만약 특정 이벤트가 발생했을 때 *abc*라는 이름의 메서드를 호출해야 하는 상황이라고 생각해 봅시다. 그런데 이 *abc*라는 (액션)메서드는 *A*라는 클래스에도 정의되어 있고, *B*라는 클래스에도 정의되어 있는 경우가 있습니다. 이렇게 같은 메서드가 여러 클래스에 정의되어 있는 경우도 있고, 그런 클래스의 인스턴스가 여러개인 상황도 있습니다. 이런 여러 가지 상황에서 우리가 원하는 객체를 Target으로 지정하면 *abc*라는 액션을 실행할 객체를 상황에 따라서 선택할 수 있습니다.
+
+![target-action](./image/target-action.png)
+
+### 액션 메서드
+
+액션 메서드는 특정한 양식이 필요합니다. IBAction은 인터페이스 빌더가 메서드를 인지할 수 있도록 해줍니다. 스위프트 언어를 활용한 프로그래밍 방식에서 `@objc`는 Swift 클래스를 사용하는 `Objective-C` 코드가 있거나 `Objective-C`유형의 메서드를 사용하는 경우 필요합니다.
+
+> 액션메서드는 `@IBAction func` 로 구현해야한다.
+
+```swift
+/ 프로그래밍 방식
+@objc func doSomething(_ sender: Any) {
+
+}
+
+// 인터페이스 빌더
+@IBAction func doSomething(_ sender: Any) { 
+
+}
+```
+
+> **Tip!** 
+>
+> 아직까지 애플의 프레임워크는 Objective-C 언어로 작성된 코드가 많기 때문에 스위프트 언어로 작성한 코드에서는 Objective-C 코드와 호환하기 위해서 `@objc`라고 표시해주어야 합니다. 스위프트 언어 4버전 이전의 컴파일러는 `@objc`를 자동으로 만들어 주었습니다. 하지만 이러한 방식은 자원 비용이 많이 들어 스위프트 4에서는 명시적으로 작성해야 합니다.
+
+### 컨트롤 이벤트와 액션과의 관계
+
+- UIKit에는 `UIButton`, `UISwitch`, `UIStepper` 등 `UIControl`을 상속받은 다양한 컨트롤 클래스가 있습니다. 
+- 그런 컨트롤 객체에 발생한 다양한 이벤트 종류를 **특정 액션 메서드**에 연결할 수 있습니다. 
+- 즉, 컨트롤 객체에서 특정 이벤트가 발생하면, 미리 지정해 둔 타겟의 액션을 호출하게 됩니다.
+
+## UIDatePicker (타겟-액션 디자인 패턴 채용)
+
+- Date Picker는 날짜 및 시간을 입력하는 컨트롤입니다. 
+- Date picker를 이용하여 특정 시점의 날짜와 시간 또는 시간 간격을 입력할 수 있습니다.
+
+### Date picker를 인터페이스에 추가하기
+
+- Date picker를 생성하고 모드를 설정합니다.
+- 필요한 경우 최소 및 최대 날짜와 같은 추가 구성 옵션을 제공합니다.
+- Date picker에 액션 메서드를 연결합니다.
+
+### Date picker에 액션 메서드 연결하기
+
+- Date picker는 사용자가 선택된 날짜를 바꿀 경우 애플리케이션에 알리기 위해 타겟-액션 디자인 패턴을 사용합니다. 
+- Date picker의 값이 변경될 때 알림을 받기 위해 액션 메서드를 `valueChanged`로 설정합니다. 
+- 실행시점에서 Date picker는 사용자의 날짜 및 시간 선택하게되면 설정된 액션 메서드를 호출합니다. 
+- Date picker를 액션 메서드에 연결하기 위해 인터페이스 빌더를 이용하거나 코드로 `addTarget(_:action:for:)`메서드를 사용합니다.
+
+#### Date Picker의 주요 인터페이스 빌더 속성 (코드상 프로퍼티로도 사용가능)
+
+- `Mode`: Date picker의 모드를 설정합니다. 코드상으로 `datePickerMode` 프로퍼티를 사용하여 이 값에 접근할 수 있습니다.
+- `Locale`: Date picker에 사용될 로케일입니다. 코드상으로 `locale` 프로퍼티를 통해 이 값에 접근할 수 있습니다.
+- `Interval`: 현재 선택된 모드의 분 간격을 나타냅니다. 선택한 값은 60의 제수여야합니다. `minnuteInterval`프로퍼티를 통해 이 값에 접근할 수 있습니다.
+- `Date`: Date picker가 처음 보여주게 될 날짜를 설정할 수 있습니다. 기본값은 현재 날짜로 설정되어 있습니다. `date`프로퍼티를 통해 접근할 수 있습니다.
+- `Constraints`: Date 하단의 Minimum Date와 MaximumDate를 통해 Date picker가 보여줄 날짜의 범위를 설정할 수 있습니다. `minimumDate`, `maximumDate` 프로퍼티를 통해 설정할 수 있습니다.
+- `Timer`: 카운트다운 타이머 모드에서 date picker의 표시되는 초기값입니다. 값은 초 단위로 계산되지만 보이는 것은 분 단위로 표시됩니다. `countDownDuration` 프로퍼티를 통해 이 값에 접근할 수 있습니다.
+
+#### UIDatePicker 클래스의 주요 프로퍼티
+
+- `var datePickerMode: UIDatePickerMode`: Date picker의 모드를 결정합니다.
+  - 기본값은 `dateAndTime`입니다.
+  - `time`, `date`, `dateAndTime`, `countDownTimer` 네가지 모드를 설정할 수 있습니다.
+- `var date: Date`: date picker에 보여지게 될 날짜입니다.
+- `var calendar: Calendar!`: date picker에 사용되는 캘린더입니다.
+- `var locale: Locale?`: date picker에서 사용하는 로케일입니다.
+- `var timeZone: TimeZone?`: date picker에서 표시된 날짜에 반영된 시간대입니다.
+- `var maximumDate: Date?`: date picker에서 보여줄 수 있는 최대 날짜입니다.
+- `var minimumDate: Date?`: date picker에서 보여줄 수 있는 최소 날짜입니다.
+- `minuteInterval: Int`: date picker에서 분을 표시하는 간격입니다. 기본값과 최솟값은 1이고 최댓값은 30입니다.
+- `var countDownDuration: TimeInterval`: date picker의 모드가 countDownTimer로 설정될 경우 date picker에 표시되는 초깃값입니다.
+
+#### UIDatePicker 클래스의 주요 메서드
+
+- `func setDate(Date, animated: Bool)`: date picker에 처음 표시할 날짜를 설정합니다.
+
+## DateFormatter
+
+- DateFormatter는 날짜와 텍스트 표현 간의 변환을 할 수 있게 해줍니다. 
+- DateFormatter를 활용해 날짜와 시간을 다양한 방식으로 출력하거나 출력된 날짜 및 시간에 대한 문자열을 읽어올 수 있습니다.
+- DateFormatter의 인스턴스는 [Date](https://developer.apple.com/documentation/foundation/date) 객체의 문자열 표현을 생성하고, 날짜 및 시간의 텍스트 표현을 Date 객체로 변환합니다.
+
+### 사용자 날짜 및 시간 표현
+
+- 사용자에게 날짜를 표시할 때 특정 요구 사항에 따라 date formatter의 `dateStyle`과 `timeStyle`프로퍼티를 설정합니다. 
+- 예를 들어, 만약에 시간을 제외한 월, 일, 연도를 보여주고 싶다면, `dateStyle`프로퍼티를 `long`으로 설정하고 `timeStyle`을 none으로 설정합니다. 
+- 반대로 시간만 보여주고 싶다면 `dateStyle`프로퍼티를 none으로 `timeStyle`프로퍼티를 short로 설정합니다. `dateStyle`과 `timeStyle` 프로퍼티의 값을 기반으로 DateFormatter는 지정된 로케일에 적합한 지정된 날짜의 표현을 제공합니다. 
+- 미리 정의된 스타일을 통해 얻을 수 없는 형식을 지정해야 한다면 `setLocalizedDateFormatFromTemplate(_:)`을 사용하여 날짜 형식을 지정할 수 있습니다.
+
+### 고정 형식 날짜 표현
+
+RFC3339와 같은 고정 형식의 날짜로 사용해야 한다면, `dateFormat` 프로퍼티를 특정 포맷 문자열로 설정합니다. 대부분의 경우 고정된 형식의 경우 `locale` 프로퍼티를 POSIX locale("en_US_POSIX")로 설정하고, `timeZone`프로퍼티를 UTC로 설정합니다.
+
+### DateFormatter의 주요 프로퍼티와 메서드
+
+- `func date(from: String)`: 주어진 문자열을 Date 객체(날짜와 시간)로 변환하여 반환합니다.
+
+- `func string(from: Date)`: 주어진 Date 객체를 문자열로 변환하여 반환합니다.
+
+- `func setLocalizedDateFormatFromTemplate(String)`: 지정된 로케일을 사용하여 날짜 형식을 설정합니다.
+
+- `var dateStyle: DateFormatter.Style`: DateFormatter의 날짜 형식입니다.
+
+- `var timeStyle: DateFormatter.Style`: DateFormatter의 시간 형식입니다.
+
+- `var dateFormat: String!`: 고정 형식 날짜 표현을 사용할 때의 날짜 형식입니다.
+
+- `var locale: Locale!`: DateFormatter의 로케일입니다.
+
+- `var timeZone: TimeZone!`: DateFormatter의 시간대입니다.
+
+  
+
+### 예제 코드
+
+- 날짜 형식(Date 객체) -> 문자열 형식(textual representation)
+
+```swift
+import UIKit
+
+let dateFormatter = DateFormatter()
+dateFormatter.dateStyle = .full
+dateFormatter.timeStyle = .none
+
+let date = Date(timeIntervalSinceReferenceDate: 118800)
+
+// US English Locale (en_US)
+dateFormatter.locale = Locale(identifier: "en_US")
+print(dateFormatter.string(from: date)) // Tuesday, January 2, 2001
+
+// KOR Korean Locale (ko_KR)
+dateFormatter.locale = Locale(identifier: "ko_KR")
+print(dateFormatter.string(from: date)) // 2001년 1월 2일 화요일
+```
+
+- 문자열 형식 -> 날짜 형식
+
+```swift
+import UIKit
+
+let dateFormatter = DateFormatter()
+
+let dateString = "1970-01-01 08:03:30 +0000"
+dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss ZZZ"
+print(dateFormatter.date(from: dateString)!) // 1970-01-01 08:03:30 +0000
+```
+
+- 부스트코스 동영상 강의 예시
+
+```swift
+import UIKit
+
+class ViewController: UIViewController {
+    
+    // MARK:- Prroperties
+    @IBOutlet weak var datePicker: UIDatePicker!
+    @IBOutlet weak var dateLabel: UILabel!
+    let dateFormatter: DateFormatter = {
+        let formatter: DateFormatter = DateFormatter()
+        //데이트포맷터가 기본적으로 제공하는 date스타일과, time스타일 형식
+//        formatter.dateStyle = .medium
+//        formatter.timeStyle = .medium
+        // 데이트 포맷 형식 내가 지정하기
+        formatter.dateFormat = "yyyy/MM/dd hh:mm:ss"
+        return formatter
+    }()
+    
+    // MARK:- View Life Cycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.datePicker.addTarget(self, action: #selector(self.didDatePickerValueChanged(_:)), for: UIControl.Event.valueChanged)
+    }
+    
+    // MARK:- Method
+    @IBAction func didDatePickerValueChanged(_ sender: UIDatePicker) {
+        let date: Date = self.datePicker.date
+        let dateString: String = self.dateFormatter.string(from: date)
+        
+        self.dateLabel.text = dateString
+    }
+
+
+}
+```
+
+## 제스처 인식기(Gesture Recognizer)
+
+- 제스처 인식기는 여러 제스처 관련 이벤트를 인식할 수 있습니다. 
+- 특정 제스처 이벤트가 일어날 때 마다 각 타깃에 맞는 액션 메시지를 보내어 제스처 관련 이벤트를 처리할 수 있습니다.
+
+### 제스처 인식기 추가하는방법
+
+1. 인터페이스 빌더
+
+   - 인터페이스 빌더에서 Gesture Recognizer를 뷰에 추가한다.
+   - 제스처가 발생할때 실행될 @IBAction 메서드를 생성한다.
+   - 인터페이스빌더 위의 Gesture Recognizer 인스턴스와 @IBAction 메서드를 연결한다.
+
+2. 코드
+
+   ```swift
+   // 일반적인 방법
+   import UIKit
+   
+   class ViewController: UIViewController {
+     
+     override func viewDidLoad() {
+       super.viewDidLoad()
+       
+       // 탭 제스쳐 인식기 생성 : 타겟-액션 연결하면서 생성하기
+       // 주의! viewDidLoad()메서드 안에서 선언해야 작동한다.
+       // 위에 프로퍼티로 선언하면 작동안한다.
+       let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapView(gestureRecognizer:)))
+       
+       // 뷰에 제스처 인식기 연결하기
+       self.view.addGestureRecognizer(tapRecognizer)
+     }
+     
+     // MARK:- Method
+     // @object func로 해도 되는듯!?
+     // 생성된 제스쳐 인식기의 액션 메서드
+     @IBAtion func tapView(gestureRecognizer: UIGestureRecognizer) {
+       print("tapped")
+     }
+   }
+   ```
+
+   ```swift
+   // UIGestureRecognizerDelegate 델리게이트를 활용하는 방법
+   import UIKit
+   
+   class ViewController: UIViewController, UIGestureRecognizerDelegate {
+       
+       override func viewDidLoad() {
+           super.viewDidLoad()
+           
+           let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
+           tapRecognizer.delegate = self //델리게이트 지정
+           self.view.addGestureRecognizer(tapRecognizer)
+       }
+       
+       func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+           self.view.endEditing(true)
+           
+           // 여기선 리턴값이 true이든 false 이든 상관은 없다.
+           // 이미 이 메서드가 실행된건 사용자의 터치를 인식했기 때문이다.
+           return true
+       }
+       
+   }
+   ```
+
+   
+
+### UIGestureRecognizer class
+
+UIGestureRecognizer 클래스는 특정 제스처 인식기에 대한 동작을 정의합니다. 또한 델리게이트 객체를 활용하여 일부 동작을 더욱 세밀하게 사용자화 할 수 있습니다.
+
+### UIGestureRecognizer의 하위 클래스 (UIGestureRecognizer의 종류)
+
+아래의 7가지의 UIGestureRecognizer 하위 클래스를 통해 여러 제스처를 인식할 수 있습니다.
+
+1. UITapGestureRecognizer : 싱글탭 또는 멀티탭 제스처
+2. UIPinchGestureRecognizer : 핀치(Pinch) 제스처
+3. UIRotationGestureRecognizer : 회전 제스처
+4. UISwipeGestureRecognizer : 스와이프(swipe) 제스처
+5. UIPanGestureRecognizer : 드래그(drag) 제스처
+6. UIScreenEdgePanGestureRecognizer : 화면 가장자리 드래그 제스처
+7. UILongPressGestureRecognizer : 롱프레스(long-press) 제스처
+
+- 제스처 인식기를 사용하기 위해서 타깃-액션 연결을 설정한 후 UIView의 메서드인 `addGestureRecognizer(_:)` 메서드를 통해 뷰에 연결합니다. 
+- 제스처가 인식되면 해당 제스처 이벤트에 연결된 타깃에 액션 메시지가 전달됩니다. 
+- 호출되는 액션메서드는 아래의 메서드 구현 형식 중 하나와 같아야 합니다.
+
+```swift
+@IBAction func myActionMethod()
+@IBAction func myActionMethod(_ sender: UIGestureRecognizer)
+```
+
+- 윈도우는 뷰에 터치 이벤트를 전달하기 전에 뷰에 추가된 제스처 인식기에 터치 이벤트를 전달합니다. 
+- 제스처 인식기가 터치 이벤트를 인식했을 경우 뷰는 터치 이벤트를 받지 못하고, 제스처 인식기가 터치 이벤트를 인식하지 못했을 경우 터치 이벤트를 뷰가 받게 됩니다. 
+- 일반적인 제스처 인식기의 동작의 흐름은 `cancelsTouchesInView`, `delaysTouchesBegan`, `delaysTouchesEnded` 프로퍼티의 값에 영향을 받습니다.
+
+### UIGestureRecognizer의 주요 메서드
+
+- `init(target: Any?, action: Selector?)` : 제스처 인식기를 타깃-액션의 연결을 통해 초기화 합니다.
+- `func location(in: UIView?) -> CGPoint` : 제스처가 발생한 좌표를 반환합니다.
+- `func addTarget(Any, action: Selector)` : 제스처 인식기 객체에 타깃과 액션을 추가합니다.
+- `func removeTarget(Any?, action: Selector?)` : 제스처 인식기 객체로부터 타깃과 액션을 제거합니다.
+- `func require(toFail: UIGestureRecognizer)` : 여러 개의 제스처 인식기를 가지고 있을 때, 제스처 인식기 사이의 의존성을 설정한다.
+
+### UIGestureRecognizer의 주요 프로퍼티
+
+- `var state: UIGestureRecognizerState` : 현재 제스처 인식기의 상태를 나타냅니다.
+- `var view: UIView?` : 제스처 인식기가 연결된 뷰입니다.
+- `var isEnabled: Bool` : 제스처 인식기가 사용 가능한 상태인지를 나타냅니다.
+- `var cancelsTouchInView` : 제스처가 인식되었을 때 터치 이벤트가 뷰로 전달되는 여부에 영향을 미칩니다.
+  - 이 프로퍼티가 true(기본값)이고 제스처 인식기가 제스처를 인식했다면, 해당 제스처의 터치는 뷰로 전달되지 않습니다. 
+  - 이전에 전달된 터치들은 `touchesCancelled(_:with:)` 메시지를 통해 취소됩니다. 
+  - 제스처 인식기가 제스처를 인식 못하거나 이 프로퍼티의 값이 false라면 뷰가 모든 터치를 전달받게 됩니다.
+- `var delaysTouchesBegan` : began 단계에서 제스처 인식기가 추가된 뷰에 터치의 전달 지연 여부를 결정합니다.
+- `var delaysTouchesEnded` : end 단계에서 제스처 인식기가 추가된 뷰에 터치의 전달 지연 여부를 결정합니다.
+
+
+
+##  UITextField
+
+- 텍스트 필드는 사용자 인터페이스에서 편집 가능한 텍스트 영역을 나타냅니다. 
+
+- 사용자가 키보드를 통해 입력하는 문자열 데이터를 활용할 수 있습니다. 
+
+- 텍스트 필드는 [Target-Action](https://developer.apple.com/library/content/documentation/General/Conceptual/Devpedia-CocoaApp/TargetAction.html) 디자인 패턴과 델리게이트 객체를 사용하여 텍스트 편집 이벤트에 관해 다룹니다.
+
+  
+
+**키보드 보여주기/숨기기**
+
+- 사용자가 텍스트 필드를 탭 하게 되면 텍스트 필드는 자동으로 first responder 가 되면서 시스템은 키보드를 보여주고, 사용자가 키보드를 사용하여 입력을 하게되면 텍스트 필드에 텍스트가 입력됩니다. 
+- 텍스트 필드를 자동으로 탭하는 방법 외에도 becomeFirstResponder() 메서드를 직접 호출해서 키보드를 나타나게 할 수 있습니다. 
+- 반대로 키보드를 숨기기 위해 resignFirstResponder() 또는 endEditing(_:) 메서드를 호출할 수 있습니다.
+
+
+
+**인터페이스 빌더에서 설정 가능한 속성**
+
+- 텍스트 필드의 속성은 [텍스트 필드 속성 참조 링크](https://developer.apple.com/documentation/uikit/uitextfield#1653000)의 Table 1을 참조하세요.
+- 키보드 속성은 [키보드 속성 참조 링크](https://developer.apple.com/documentation/uikit/uitextfield#1965766)의 Table 2를 참조하세요.
+
+###  
+
+**텍스트 필드 델리게이트**
+
+- 텍스트 필드는 델리게이트 객체의 도움을 받아 텍스트 편집의 이벤트 등을 관리합니다. 
+- 사용자가 텍스트필드를 통한 작업을 할 때 이와 관련된 이벤트들을 델리게이트 객체에게 알리고 이를 사용하여 여러 이벤트를 처리할 수 있습니다.
+
+
+
+**UITextField 클래스의 주요 프로퍼티**
+
+- `var delegate: UITextFieldDelegate?`: 텍스트 필드의 델리게이트 객체입니다.
+- `var text: String?`: 텍스트 필드에 보여지는 문자열입니다.
+- `var placeholder: String?`: 텍스트 필드에 아무것도 입력되어 있지 않을 때 기본으로 보이게 되는 문자열입니다. 텍스트 필드에 텍스트를 입력하게 되면 사라집니다.
+- `var font: UIFont?`: 텍스트의 폰트를 설정합니다.
+- `var textColor: UIColor?`: 텍스트의 색상을 설정합니다.
+- `var textAlignment: NSTextAlignment`: 텍스트의 정렬을 설정합니다.
+- `var isEditing: Bool`: 현재 텍스트 필드가 편집 모드에 있는지 나타냅니다.
+- `var background: UIImage?`: 텍스트 필드가 enable 되어 있을 때의 배경 이미지를 나타냅니다.
+- `var disabledBackground: UIImage?`: 텍스트 필드가 disabled 되어 있을 때의 배경 이미지를 나타냅니다.
+- `var clearButtonMode: UITextFieldViewMode`: 텍스트 필드의 텍스트를 모두 지울 수 있는 컨트롤을 텍스트 필드에 나타나게 할 수 있습니다.
+
+
+
+**UITextFieldDelegate 프로토콜의 주요 메서드**
+
+- `func textFieldShouldBeginEditing(UITextField)`: 델리게이트 객체에게 텍스트 필드에서 텍스트 편집을 시작을 요청합니다.
+- `func textFieldDidBeginEditing(UITextField)`: 델리게이트에게 텍스트 필드에서 텍스트 편집이 시작되었음을 델리게이트 객체에게 알립니다.
+- `func textField(UITextField, shouldChangeCharactersIn: NSRange, replacementString: String)`: 델리게이트 객체에게 현재 텍스트의 수정을 요청합니다.
+- `func textFieldShouldEndEditing(UITextField)`: 델리게이트 객체에게 텍스트 편집 중지를 요청합니다.

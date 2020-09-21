@@ -8,6 +8,10 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    // MARK:- properties
+    @IBOutlet weak var nameField: UITextField!
+    @IBOutlet weak var ageField: UITextField!
 
     // MARK:- View Life Cycle
     override func viewDidLoad() {
@@ -50,6 +54,12 @@ class ViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         print("뷰컨트롤러의 뷰가 서브뷰를 레이아웃 함")
+    }
+    
+    // MARK:- 액션메서드
+    @IBAction func touchUpSetUpButton(_ sender: UIButton) {
+        UserInformation.shared.name = nameField.text
+        UserInformation.shared.age = ageField.text
     }
 
 

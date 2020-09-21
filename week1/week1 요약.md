@@ -622,8 +622,12 @@ iPhone4, iPhoneSE, iPhone8, iPhone8 Plus 그리고 iPhoneX등 다양한 사이�
    - 부모뷰의 서브뷰를 제거하기 : 서브뷰의 **removeFromSuperView()** 메서드를 호출
    - 서브뷰를 부모뷰 목록의 중간에 삽입하기 :  **insertSubview(_:at:)**
    - 부모뷰 내에 이미존재하는 서브뷰를 정렬하기 : **bringSubView(toFront:)**, **sendSubview(toBack:)**
-
 2. **인터페이스 빌더를 통한 생성 관리**
+
+> 뷰컨트롤러의 뷰 생성방법 2가지
+>
+> 1. 인터페이스 빌더에서 뷰 올리기
+> 2. loadView() 메서드로 뷰컨트롤러에 오버라이딩 하기.
 
 ## 뷰의 좌표계
 
