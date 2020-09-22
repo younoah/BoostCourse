@@ -3,6 +3,9 @@
 - iOS 화면 전환
   - 내비게이션
   - 모달
+- 뷰 라이프 사이크
+  - 뷰 상태변화 메서드
+  - 뷰 레이아웃 변화 메서드
 - 델리게이트 (디자인 패턴)
 - 싱글턴 (디자인 패턴)
 - UIImagePicker
@@ -467,7 +470,7 @@ func textFieldShouldReturn(UITextField)
 - 이렇게 델리게이트의 메서드를 불러와서 정의하면 델리게이트를 채택한 뷰컨트롤러에서 알아서 메서드가 어떤 객체에 사용될지 절해서 잘 실행시켜준다(적재적소에 메서드가 실행될수 있는것은 델리게이트 안에 프로토콜로 정의가 되어있기 때문)
 - 델리게이트는 textField, button, 등이 있지만 대표적으로 listView와 collectionView에서 많이 사용한다.
 
-## UIImagePickerController
+## 이미지 피커 UIImagePickerController
 
 델리게이트 디자인 패턴을 활용하중 클래스중 하나이다.
 
@@ -514,7 +517,14 @@ extension ViewController: UIImagePickerControllerDelegate & UINavigationControll
 }
 ```
 
+### 사용자 앨범 접근 동의
 
+- 이미지 피커로 앨범에 접근할때 사용자에게 접근 동의를 얻어야한다.
+- Info.plist에서 add row한다.
+
+> Key : Privacy - Photo Library Usage Description 
+>
+> Value : ""앨범에 접근하는것을 동의하십니까?"
 
 ## 싱글턴
 

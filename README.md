@@ -8,9 +8,10 @@
   - 예) 사진첩에 접근 허용 요청하기
   - 이런 사용자 정보에 접근할때 세팅하지 않으면 앱스토어에 반려사유가 된다.
   - https://www.edwith.org/boostcourse-ios/lecture/16883/ (두전째 영상 참고)
-
 - ARC Retina Cycle - week, strong
   - https://shark-sea.kr/entry/iOS-ARC-strong-weak-unowned
+- 지역변수, 전역변수
+  - self를 언제 사용해야하나
 
 ## week1
 
