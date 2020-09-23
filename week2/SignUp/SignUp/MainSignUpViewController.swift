@@ -75,7 +75,11 @@ class MainSignUpViewController: UIViewController, UITextViewDelegate {
         UserInformation.shared.password = passwordTextField.text
         UserInformation.shared.introduction = introductionTextView.text
     }
+    @objc func cancelSignUpButton() {
+        self.navigationController?.popViewController(animated: true)
+    }
     
+    // 텍스트뷰 델리게이트
     func textViewDidEndEditing(_ textView: UITextView) {
         checkFormAndEnableNextButton()
     }
@@ -104,12 +108,3 @@ extension MainSignUpViewController: UIImagePickerControllerDelegate, UINavigatio
     
 }
 
-// MARK:- Button
-extension MainSignUpViewController {
-    
-    // MARK:- CancelButton Method
-    @IBAction func cancelSignUpButton() {
-        self.navigationController?.popViewController(animated: true)
-    }
-
-}

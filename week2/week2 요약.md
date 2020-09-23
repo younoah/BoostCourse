@@ -149,6 +149,24 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     }
 ```
 
+
+
+### 아무 연결 되어 있지 않은 뷰컨트롤러간의 연결
+
+>  참고 : https://etst.tistory.com/86
+
+- 연결이 되어있지 않은 뷰컨트롤러끼리 연결하기 위해서는 스토리보드 ID를 이용해야한다.
+- 연결할 스토리보드의 id를 작성하고 아래 코드를 이용해서 push를 한다.
+
+```swift
+@objc func pushToNextView() {
+  let nextViewID = self.storyboard?.instantiativeConroller(withIdentifier: "다음뷰의스토리보드ID")
+  self.navigationsController?.pushViewController(nextViewID, animated: true)
+}
+```
+
+
+
 ### 내비게이션바의 구성
 
 - 내비게이션바는 내비게이션 컨트롤러에 의해 생성됩니다. 

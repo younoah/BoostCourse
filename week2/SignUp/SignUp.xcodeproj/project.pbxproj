@@ -107,10 +107,10 @@
 			children = (
 				8D180C202519FBBE00691BED /* AppDelegate.swift */,
 				8D180C222519FBBE00691BED /* SceneDelegate.swift */,
+				8D180C60251A11AC00691BED /* UserInformation.swift */,
 				8D180C242519FBBE00691BED /* MainViewController.swift */,
 				8D180C56251A0B2D00691BED /* MainSignUpViewController.swift */,
 				8D180C5B251A0B4D00691BED /* AdditionalSignUpViewController.swift */,
-				8D180C60251A11AC00691BED /* UserInformation.swift */,
 				8D180C262519FBBE00691BED /* Main.storyboard */,
 				8D180C292519FBBE00691BED /* Assets.xcassets */,
 				8D180C2B2519FBBE00691BED /* LaunchScreen.storyboard */,

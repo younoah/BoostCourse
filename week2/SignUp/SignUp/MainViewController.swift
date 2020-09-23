@@ -22,7 +22,6 @@ class MainViewController: UIViewController {
         if UserInformation.shared.id?.isEmpty == false {
             idTextField.text = UserInformation.shared.id
         }
-        print("뷰윌 어피얼")
     }
 
 
