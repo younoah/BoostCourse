@@ -17,7 +17,8 @@ class CityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.tableView.rowHeight = 100;
+        // 셀의 높이는 프로퍼티보다 테이블뷰 델리게이트로 우선 조정하는게 좋다고 한다.
+//        self.tableView.rowHeight = 100
         
         navigationItem.title = country?.koreanName
         
@@ -65,21 +66,20 @@ extension CityViewController : UITableViewDataSource {
         } else {
             cell.temperatureLabel.textColor = UIColor.black
         }
-        
         if citiesArray[indexPath.row].rainfallProbability > 50 {
             cell.rainfallLabel.textColor = UIColor.systemOrange
         } else {
             cell.rainfallLabel.textColor = UIColor.black
         }
         
-        
         return cell
     }
     
 }
 
-// MARK:- Table View Delegate & DataSource
+// MARK:- Table View Delegate
 extension CityViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
             return
@@ -88,6 +88,11 @@ extension CityViewController: UITableViewDelegate {
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
 }
+
 
 

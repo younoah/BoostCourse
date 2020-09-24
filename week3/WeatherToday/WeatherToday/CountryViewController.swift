@@ -12,7 +12,6 @@ class CountryViewController: UIViewController {
     // MARK:- Properties
     @IBOutlet weak var tableView: UITableView!
     let cellIdentifier: String = "countryCell"
-    
     var countriesArray: [Country] = []
 
     // MARK:- View Life Cycle
@@ -36,11 +35,6 @@ class CountryViewController: UIViewController {
         } catch {
             print(error)
         }
-    }
-    
-    // MARK:- Method
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
     }
 
 }
