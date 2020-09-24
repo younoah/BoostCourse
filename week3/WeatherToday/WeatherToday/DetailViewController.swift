@@ -8,22 +8,31 @@
 import UIKit
 
 class DetailViewController: UIViewController {
+    
+    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var stateLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var rainfallLabel: UILabel!
+    var city: City?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        if let city = city {
+            navigationItem.title = city.cityName
+            
+            imageView.image = UIImage(named: city.getWeatherString)
+            stateLabel.text = city.getWeatherKoreanString
+            temperatureLabel.text = city.temperatureString
+            rainfallLabel.text = city.rainfallProbabilityString
+            
+            if city.celsius < 10 {
+                temperatureLabel.textColor = UIColor.systemBlue
+            }
+            if city.rainfallProbability > 50 {
+                rainfallLabel.textColor = UIColor.systemOrange
+            }
+        }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

@@ -19,9 +19,17 @@
   
   - self를 언제 사용해야하나
   
-- 뷰의 제약 조건 확실하게 잡기
+- 디버깅 방법 / 오류잡는 방법
+
+- 오토레이아웃 (뷰의 제약 조건 확실하게 잡기)
+
+  - 디버깅 방법
+  - 키보드 올릴때 오류 (signup project)
+  - 테이블뷰(셀) 넘길때 오류
 
 - 화면전화에서 나타내기 vs 보여주기 개념은 모달에서만인가? 아니면 내비게이션에서도인가? 아니면 뷰컨 전체 화면 띄우는 방식에서인가?
+
+- 옵셔널 if let, guard let, / do-catch / 타입 캐스팅 확실하게 잡기
 
 - 타입캐스팅 
 
@@ -30,22 +38,23 @@
     ```swift
     // 강제 캐스팅
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    				let cell = tableView.dequeueReusableCell(withIdentifier: "zeddCell", for: indexPath) as! MyTableViewCell
+    				let cell: CityTableViewCell = tableView.dequeueReusableCell(
+              withIdentifier: cellIdentifier, 
+              for: indexPath) as! CityTableViewCell
             return cell
         }
     
     // gaurd let 구문
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: String(describing: MovieTableViewCell.self),
-                    for: indexPath) as? MovieTableViewCell else {
-                    return UITableViewCell()
-                }
-            return cell
+            guard let cell: CityTableViewCell = tableView.dequeueReusableCell(
+                    withIdentifier: cellIdentifier,
+                    for: indexPath) as? CityTableViewCell else {
+                return UITableViewCell()
+            }
+      
+          return cell
         }
     ```
-
-    
 
 ## week1
 

@@ -17,6 +17,8 @@ class CityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.rowHeight = 100;
+        
         navigationItem.title = country?.koreanName
         
         tableView.delegate = self
@@ -34,11 +36,11 @@ class CityViewController: UIViewController {
         } catch {
             print(error)
         }
-        
     }
-
+    
 }
 
+// MARK:- Table View DataSource
 extension CityViewController : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,20 +48,46 @@ extension CityViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: String(describing: CityTableViewCell.self),
+        guard let cell: CityTableViewCell = tableView.dequeueReusableCell(
+                withIdentifier: cellIdentifier,
                 for: indexPath) as? CityTableViewCell else {
             return UITableViewCell()
         }
         
+        cell.cityImageView.image = UIImage(named: "\(citiesArray[indexPath.row].getWeatherString)")
         cell.cityNameLabel.text = citiesArray[indexPath.row].cityName
+        cell.temperatureLabel.text = citiesArray[indexPath.row].temperatureString
+        cell.rainfallLabel.text = citiesArray[indexPath.row].rainfallProbabilityString
+        cell.accessoryType = .disclosureIndicator
+        
+        if citiesArray[indexPath.row].celsius < 10 {
+            cell.temperatureLabel.textColor = UIColor.systemBlue
+        } else {
+            cell.temperatureLabel.textColor = UIColor.black
+        }
+        
+        if citiesArray[indexPath.row].rainfallProbability > 50 {
+            cell.rainfallLabel.textColor = UIColor.systemOrange
+        } else {
+            cell.rainfallLabel.textColor = UIColor.black
+        }
+        
         
         return cell
     }
     
 }
 
-extension CityViewController : UITableViewDelegate {
+// MARK:- Table View Delegate & DataSource
+extension CityViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let detailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController") as? DetailViewController else {
+            return
+        }
+        detailViewController.city = citiesArray[indexPath.row]
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
     
 }
+
 
