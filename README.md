@@ -2,6 +2,8 @@
 
 ## 찾아보기
 
+- 파일, 폴더 명명법 (in ios, django)
+  
 - 퀵헬프, 점프투데피니션, 개발자문서(레퍼런스) 활용방법
   
   - https://www.edwith.org/boostcourse-ios/lecture/16883/ (첫번째 영상 참고)
@@ -15,6 +17,8 @@
   
   - https://shark-sea.kr/entry/iOS-ARC-strong-weak-unowned
   
+- private 변수
+
 - 지역변수, 전역변수
   
   - self를 언제 사용해야하나
@@ -56,59 +60,105 @@
         }
     ```
 
-## week1
 
-- 인터페이스 빌더의 객체를 코드와 연결
-  - IBOutlet
-  - IBAction
-- Cocoa Touch
-  - UIKit
-    - Foundation
-    - UIControl
-    - UIButton
-    - UILabel
-    - UISlider
-  - AVFoundation
-    - AVAudioPlayer
-    - Timer
-- 오토레이아웃
-  - 코드구현
-  - 인터페이스빌더
-- iOS 뷰의 체계
-- 디자인패턴
-  - MVC패턴
 
-## week2
+## 옵셔널 바인딩 & 타입 캐스팅
 
-- 화면전환
-  - 내비게이션
-  - 모달
-- 뷰 라이프 사이클
-- 델리게이션 (디자인패턴)
-  - 델리게이트
-- 싱글턴 (디자인패턴)
-- 타겟-액션 (디자인패턴)
-- 제스처 인식기
+- 옵셔널 바인딩
 
-### 새로 배우는 내용
+  - if-let
+  - gurad-let
 
-- Design Patterns
-  - Delegation Pattern
-  - Singleton
-  - Target-Action
-- View Transition
-  - Navigation Interface
-  - Modality
-- UIKit
-  - UITextField
-  - UIDatePicker
-  - UIStackView
-  - UIImagePickerController
-  - UINavigationController
-  - UIGestureRecognizer
-  - View Controller States Methods
-- Foundation
-  - DateFormatter
-- Swift
-  - Dictionary의 활용
-  - guard 구문의 활용
+- 타입검사 (타입 확인) : is
+
+- 타입 캐스팅 (타입 변환) : 주로 클래스의 인스턴스에서 형변환할 때 많이 사용된다. (또는 딕셔너리, any anyobject타입을 많이 사용할떄 쓴다고한다.?)
+
+  - as 업 캐스팅(많이 사용 안한다.) : 해당 인스턴스가 부목 클래스의 인스턴스로 사용할 수 있도록 한다. 너무나 당연한 일반적인 타입변환
+
+  - 다운 캐스팅 : 해당 인스턴스가 자식 클래스의 인스턴스로 사용할 수 있도록 한다.
+
+    - 조건부 다운 캐스팅 as? (반환타입: 옵셔널)
+
+      ```swift
+      class Person {
+          var name: String = ""
+          func breath() {
+              print("숨을 쉽니다")
+          }
+      }
+      
+      class Student: Person {
+          var school: String = ""
+          func goToSchool() {
+              print("등교를 합니다")
+          }
+      }
+      
+      class UniversityStudent: Student {
+          var major: String = ""
+          func goToMT() {
+              print("멤버쉽 트레이닝을 갑니다 신남!")
+          }
+      }
+      // UniversityStudent 인스턴스를 생성하여 Person 행세를 할 수 있도록 업 캐스팅
+      var mike: Person = UniversityStudent() as Person
+      
+      var jenny: Student = Student()
+      //var jina: UniversityStudent = Person() as UniversityStudent // 컴파일 오류
+      
+      // UniversityStudent 인스턴스를 생성하여 Any 행세를 할 수 있도록 업 캐스팅
+      var jina: Any = Person() // as Any 생략가능
+      var optionalCasted: Student?
+      
+      // mike는 Person 타입이어도 실질적으로 할당된 인스턴스가 UniversityStudent이었기때문에
+      // Person 타입이어도 UniversityStudent으로 다운캐스팅이 가능하다.
+      optionalCasted = mike as? UniversityStudent
+      optionalCasted = jenny as? UniversityStudent // nil
+      optionalCasted = jina as? UniversityStudent // nil
+      optionalCasted = jina as? Student // nil
+      ```
+
+    - 강제 다운 캐스팅 as! (반환타입: 일반타입, 실패시 런타임 오류)
+
+    - if-let-as? : 조건부 다운캐스팅과 동시에 nil반환되지 않도록 하기(?)
+
+  - Any와 AnyObject를 위한 형 변환
+
+- 오류처리
+
+  - do-catch : 캐치해서 에러로 어떤걸 처리해주고싶으면
+  - do-try-catch
+  - try? : 걍 리턴하고싶으면 try?써서 간단하게
+  - try!
+
+
+
+예시
+
+```swift
+let imageURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/3/3d/LARGE_elevation.jpg")!
+let imageData = try! Data.init(contentsOf: imageURL)
+let image: UIImage = UIImage(data: imageData)!
+            
+self.imageView.image = image
+
+//if-let
+if let imageURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/3/3d/LARGE_elevation.jpg"),
+          let imageData = try? Data.init(contentsOf: imageURL), 
+					let image = UIImage(data: imageData) {
+                self.imageView.image = image
+            }
+
+//gurard-let
+guard let imageURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons/3/3d/LARGE_elevation.jpg") else { return }
+guard let imageData = try? Data.init(contentsOf: imageURL), let image = UIImage(data:imageData) else {return}
+            
+self.imageView.image = image
+```
+
+
+
+
+
+
+
