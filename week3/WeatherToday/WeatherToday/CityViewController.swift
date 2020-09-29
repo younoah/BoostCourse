@@ -9,11 +9,13 @@ import UIKit
 
 class CityViewController: UIViewController {
     
+    // MARK:- Properties
     @IBOutlet weak var tableView: UITableView!
     let cellIdentifier: String = "cityCell"
     var country: Country?
     var citiesArray: [City] = []
-
+    
+    // MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,7 +51,7 @@ extension CityViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell: CityTableViewCell = tableView.dequeueReusableCell(
+        guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: cellIdentifier,
                 for: indexPath) as? CityTableViewCell else {
             return UITableViewCell()

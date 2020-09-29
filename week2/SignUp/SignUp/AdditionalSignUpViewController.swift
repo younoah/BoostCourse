@@ -45,14 +45,14 @@ class AdditionalSignUpViewController: UIViewController {
         view.endEditing(true)
     }
     @objc func cancelSignUpButton() {
-        self.navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     @objc func backToPreviousButton() {
-        self.navigationController?.popViewController(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     @objc func didDatePickerValueChange() {
-        let date: Date = self.datePicker.date
-        let dateString: String = self.dateFormatter.string(from: date)
+        let date: Date = datePicker.date
+        let dateString: String = dateFormatter.string(from: date)
         birthDateLabel.text = dateString
     }
     @objc func checkFormAndEnableSignUpButton() {
@@ -65,10 +65,7 @@ class AdditionalSignUpViewController: UIViewController {
     @objc func saveUserInfo() {
         UserInformation.shared.phoneNumber = phoneNumberTextField.text
         UserInformation.shared.birthDate = datePicker.date
-        completeSignUp()
-    }
-    func completeSignUp() {
-        self.navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
 
 }

@@ -67,7 +67,7 @@
             default:
                 break
             }
-     ```
+    ```
 
 - 앨범 메타데이터 갖고오기(패치) (패치옵션 줄수있다.) : **PHAssetCollection.fetchAssetCollections()**
 
@@ -442,6 +442,20 @@ func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> U
 
 ## OperationQueue의 주요 메서드/프로퍼티
 
+### 중요! 오퍼레이션큐 보다 디스패치큐(GCD)를 사용하자.
+
+- OperationQueue은 잘 사용안하고 DispatchQueue(GCD)를 사용한다고 한다.
+
+```swift
+DispatchQueue.main.sync {
+    //code
+}
+
+DispatchQueue.global().async {
+    //code
+}
+```
+
 ### 특정 Operation Queues 가져오기
 
 - current : 현재 작업을 시작한 Operation Queue를 반환합니다.
@@ -566,4 +580,175 @@ guard let imageURL = URL(string: "https://upload.wikimedia.org/wikipedia/commons
 > 따라서 `self.imageView.image = image` 코드는 데이터를 불러오는 작업이 끝나고 `OperationQueue.main.addOperation `를 통해서 메인쓰레드로 불러와서 실행시켜주어야한다.
 >
 > 이때 `self.imageView.image = image`이 코드를 그냥 `OperationQueue().addOperation` 밖에 쓰면 되지 않겠냐? 생각했는데 밖에 쓰게되면 다른쓰레드에서 데이터를 불러와서 image변수에 데이터를 저장했는데 해당 변수를 메인쓰레드에서는 가지고 오지 못하기떄문에 다른쓰레드에서 작업된 image변수를 그대로 메인쓰레드로 갖고온다고 생각하자.
+>
+> 준선생님의 말에 따르면 "밖에 코드를 써버리면 글로벌 쓰레드여서 내부코드가 다 끝나기 전에 이미 다음 코드로 넘어가버려서 이미지를 쓰지 못한다" 하고 하였다.
+
+
+
+## 스크롤뷰
+
+- 스크롤뷰는 스크롤뷰 안에 포함된 뷰를 상,하,좌,우로 스크롤 할 수 있고 확대 및 축소할 수 있는 뷰입니다. 
+- 그리고 스크롤뷰를 상속받아 활용되는 뷰로는 `UITableView`, `UICollectionView`, `UITextView`등 여러 `UIKit` 클래스가 있습니다.
+
+### 프로퍼티/메서드
+
+>  참고 : https://www.edwith.org/boostcourse-ios/lecture/16900/
+>
+>  스크롤뷰와 이미지뷰 제약조건 참고 : https://www.youtube.com/watch?v=qMrH5_Yj5hM
+
+
+
+## 내비게이션 아이템 (NavigationItem)
+
+- 내비게이션바의 콘텐츠를 표시하는 객체입니다. 
+- 그리고 뷰 컨트롤러가 전환될 때마다 내비게이션바는 하나의 공동 객체지만, 내비게이션 아이템은 각각의 뷰 컨트롤러가 가지고 있는 프로퍼티입니다. 
+- 즉, 내비게이션바가 내비게이션 컨트롤러와 연관이 있다면 내비게이션 아이템은 해당 뷰 컨트롤러와 연관이 있습니다. 
+- 보통 내비게이션바에서 보여지는 중앙 타이틀, 좌측 바 버튼, 우측 바 버튼 등이 내비게이션 아이템의 프로퍼티입니다.
+
+![navigationItem](./images/navigationItem.png)
+
+### NavigationItem 주요 프로퍼티
+
+- title : 내비게이션바에 표시되는 내비게이션 아이템의 제목. 기본값은 nil 입니다.
+
+  ```swift
+   var title: String? { get set }
+  ```
+
+- backBarButtonItem : 내비게이션바에서 뒤로 버튼이 필요할 때 사용할 바 버튼 항목.
+
+  ```swift
+   var backBarButtonItem: UIBarButtonItem? { get set }
+  ```
+
+- hidesBackButton : 뒤로 버튼이 숨겨져 있는지를 결정하는 부울 값.
+
+  ```swift
+  var hidesBackButton: Bool { get set }
+  ```
+
+### NavigationItem 주요 메서드
+
+- setHidesBackButton(_:animated:) : 뒤로 버튼이 숨겨져 있는지를 설정하고, 전환 애니메이션 효과 적용
+
+  ```swift
+  func setHidesBackButton(_ hidesBackButton: Bool, animated: Bool)
+  ```
+
+
+
+### 내비게이션 아이템 커스터마이징
+
+- 내비게이션 아이템은 크게 좌, 우 바 버튼 아이템과 중앙 타이틀 영역이 있습니다. 
+- 좌측 바 버튼, 우측 바 버튼 아이템의 경우 타입은 `UIBarButtonItem` 입니다. 
+- 그리고 상황에 따라서 커스텀 뷰를 넣어서 구현할 수도 있습니다.
+
+### 프로퍼티
+
+- titleView : 중앙 타이틀 영역의 뷰
+
+  ```swift
+   var titleView: UIView? { get set }
+  
+  // Tip : 중앙 타이틀 영역에 뷰를 상속받은 (UILabel, UIView, UIImageView 등등) 클래스들을 표현할 수 있습니다.
+  ```
+
+- leftBarButtonItems : 좌측 아이템 영역의 `UIBarButtonItem`의 바 버튼 아이템 배열
+
+  ```swift
+   var leftBarButtonItems: [UIBarButtonItem]? { get set }
+  ```
+
+- leftBarButtonItem : 좌측 아이템 영역의 `UIBarButtonItem` 중에 가장 좌측 바 버튼 아이템
+
+  ```swift
+   var leftBarButtonItem: UIBarButtonItem? { get set }
+  ```
+
+- rightBarButtonItems : 우측 아이템 영역의 `UIBarButtonItem`의 바 버튼 아이템 배열
+
+  ```swift
+   var rightBarButtonItems: [UIBarButtonItem]? { get set }
+  ```
+
+- rightBarButtonItem : 우측 아이템 영역의 `UIBarButtonItem` 중에 가증 우측 바 버튼 아이템
+
+  ```swift
+  var rightBarButtonItem: UIBarButtonItem? { get set }
+  ```
+
+### 메서드
+
+- setLeftBarButtonItems(_:animated:) : 좌측 아이템 영역에 `UIBarButtonItem` 타입의 객체들을 순차적으로 설정하고 애니메이션 효과를 적용
+
+  ```swift
+   func setLeftBarButtonItems(_ items: [UIBarButtonItem]?, animated: Bool)
+  ```
+
+- setLeftBarButton(_:animated:) : 좌측 아이템 영역에 `UIBarButtonItem` 타입의 객체를 설정하고 애니메이션 효과를 적용
+
+  ```swift
+   func setLeftBarButton(_ item: UIBarButtonItem?, animated: Bool)
+  ```
+
+- setRightBarButtonItems(_:animated:) : 우측 내비게이션 아이템 영역에 `UIBarButtonItem` 타입의 객채들을 순차적으로 설정하고 애니메이션 효과를 적용
+
+  ```swift
+   func setRightBarButtonItems(_ items: [UIBarButtonItem]?, animated: Bool)
+  ```
+
+- setRightBarButton(_:animated:) : 우측 아이템 영역에 `UIBarButtonItem` 타입의 객체를 설정하고 애니메이션 효과를 적용
+
+  ```swift
+   func setRightBarButton(_ item: UIBarButtonItem?, animated: Bool)
+  ```
+
+
+
+## 바 버튼 아이템이란?
+
+- 바 버튼 아이템은 `UIToolbar` 또는 `UINavigationBar` (`backBarButtonItem`,`leftBarButtonItem`,`rightBarButtonItem`등)에 배치할 수 있는 특수한 버튼입니다. 
+
+- 제목이나 이미지를 보여줄 수 있고 미리 `UIBarButtonItem.SystemItem` 열거형에 정의된 여러 스타일 중 하나의 스타일로 선택할 수도 있습니다.
+
+  ![barButton](./images/barButton.png)
+
+> Tip : iOS 11에서는 UIBarButtonItem을 오토레이아웃 제약 없이 내비게이션 아이템으로 추가하면 바 버튼 아이템의 프레임이 예상치 못한 크기로 나올 수 있습니다. 이럴 땐 UIBarButtonItem 객체에 적절한 오토레이아웃 제약을 추가한 후 내비게이션 아이템으로 설정하면 설정한 제약에 따라 알맞은 크기로 볼 수 있습니다.
+
+**주요 프로퍼티**
+
+- title : 아이템에 표시되는 제목.
+
+```swift
+ var title: String? { get set }
+```
+
+- image : 아이템에 표시되는 이미지.
+
+```swift
+var image: UIImage? { get set }
+```
+
+- style : 아이템의 스타일.
+
+  ```swift
+  var style: UIBarButtonItem.Style { get set }
+  ```
+
+- width : 아이템의 너비 값.
+
+  ```swift
+   var width: CGFloat { get set }
+  ```
+
+- tintColor : 아이템에 적용할 색상
+
+  ```swift
+   var tintColor: UIColor? { get set }
+  ```
+
+**주요 상수**
+
+- UIBarButtonItem.Style : 아이템 스타일 정의.
+- UIBarButtonItem.SystemItem : 바 버튼 아이템에 대한 시스템 제공 스타일.
 

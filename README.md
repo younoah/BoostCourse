@@ -17,12 +17,26 @@
   
   - https://shark-sea.kr/entry/iOS-ARC-strong-weak-unowned
   
-- private 변수
+- private, lazy변수
+
+- override func
+
+- _(언더바) 변수 선언
+
+  ```swift
+  // ex 
+  _ picker: UIImagePickerController,
+          didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+          
+          if let image:UIImage =  info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+              self.userImageView.image = image
+          }
+  ```
 
 - 지역변수, 전역변수
-  
+
   - self를 언제 사용해야하나
-  
+
 - 디버깅 방법 / 오류잡는 방법
 
 - 오토레이아웃 (뷰의 제약 조건 확실하게 잡기)
@@ -34,6 +48,8 @@
 - 화면전화에서 나타내기 vs 보여주기 개념은 모달에서만인가? 아니면 내비게이션에서도인가? 아니면 뷰컨 전체 화면 띄우는 방식에서인가?
 
 - 옵셔널 if let, guard let, / do-catch / 타입 캐스팅 확실하게 잡기
+
+- 클로저
 
 - 타입캐스팅 
 
@@ -60,7 +76,7 @@
         }
     ```
 
-
+- 이미지 피커 뜯어보기
 
 ## 옵셔널 바인딩 & 타입 캐스팅
 

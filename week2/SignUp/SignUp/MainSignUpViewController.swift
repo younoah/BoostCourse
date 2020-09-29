@@ -86,7 +86,7 @@ class MainSignUpViewController: UIViewController, UITextViewDelegate {
 
 }
 
-// MARK:- ImagePicker
+// MARK:- Image Picker
 extension MainSignUpViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -97,7 +97,7 @@ extension MainSignUpViewController: UIImagePickerControllerDelegate, UINavigatio
         _ picker: UIImagePickerController,
         didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        if let image:UIImage =  info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+        if let image: UIImage =  info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.userImageView.image = image
         }
         

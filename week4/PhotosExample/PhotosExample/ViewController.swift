@@ -16,6 +16,9 @@ class ViewController: UIViewController, PHPhotoLibraryChangeObserver {
     var fetchResult: PHFetchResult<PHAsset>!
     let imageManager: PHCachingImageManager = PHCachingImageManager()
     
+    @IBAction func touchUpRefreshButton(){
+        self.tableView.reloadSections(IndexSet(0...0), with: .automatic)
+    }
 
     // MARK:- 뷰의 상태 메서드
     override func viewDidLoad() {
@@ -62,7 +65,7 @@ class ViewController: UIViewController, PHPhotoLibraryChangeObserver {
     // MARK:- 사진첩에서 컬렉션 요청
     func requestCollection() {
         let cameraRoll: PHFetchResult<PHAssetCollection> =
-            PHAssetCollection.fetchAssetCollections(
+            PHAssetCollection.fetchAssetCollections (
                 with: .smartAlbum,
                 subtype: .smartAlbumUserLibrary,
                 options: nil)
@@ -137,4 +140,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
-
+// MARK:- prepare segue
+extension ViewController {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let nextViewController: ImageZoomViewController = segue.destination as? ImageZoomViewController else { return }
+        guard let cell: UITableViewCell = sender as? UITableViewCell else { return }
+        guard let index: IndexPath = self.tableView.indexPath(for: cell) else { return }
+        
+        nextViewController.asset = self.fetchResult[index.row]
+    }
+}
