@@ -21,6 +21,10 @@
 
 - override func
 
+- ios의 포인트, 픽셀, 해상도 : 뷰의 사이즈와 레이아웃과 관련하여 (CGSize,CGFloat)
+
+- CG머머, NS머머 의 정체
+
 - _(언더바) 변수 선언
 
   ```swift
@@ -77,6 +81,16 @@
     ```
 
 - 이미지 피커 뜯어보기
+
+  ```swift
+  // viewDidLoad
+  let headerNib = UINib(nibName: "HeaderCollectionReusableView", bundle: nil)
+          collectionView.register(headerNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+  ```
+
+  위와 같이 코드를 첬는데 연결이 안된다. (부스트코스 week4 FriendCollection 확인하기.)
+
+- 컬렉션뷰의 헤더뷰, 푸터뷰 nib으로 관리하기
 
 ## 옵셔널 바인딩 & 타입 캐스팅
 

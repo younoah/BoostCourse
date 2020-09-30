@@ -752,3 +752,295 @@ var image: UIImage? { get set }
 - UIBarButtonItem.Style : 아이템 스타일 정의.
 - UIBarButtonItem.SystemItem : 바 버튼 아이템에 대한 시스템 제공 스타일.
 
+
+
+## 컬렉션뷰
+
+- 유연하고 변경 가능한 레이아웃을 사용하여 데이터 아이템의 정렬된 세트를 표시하는 수단.
+- 일반적으로 데이터 아이템들을 그리드와 같은 형태로 표현
+- 컬렉션뷴의 레이아웃을 사용자가 정의할수도 있다.
+
+![collectionView0](./images/collectionView0.png)
+
+### 컬렉션뷰의 구성요소
+
+- 셀 : 주요 컨텐츠 표시, 컬렉션뷰 데이터소스 객체에서 셀에대한 정보를 가져온다. 각각의 셀은 UICollectionViewCell의 인스턴스이다.
+- 보충뷰 : 섹션에 대한 정보를 표시, 필수는 아니다. 사용법과 배치방식은 레이아웃 객체가 제어한다. 헤더와 푸터를 예로 들수 있다.
+- 데코레이션뷰 : 스크롤되는 컬렉션뷰에서 배경을 꾸밀때 사용한다. 레이아웃 객체가 데코레이션뷰를 사용하여 배경 모양을 구현할수 있다.
+- 레이아웃 객체 : 컬렉션뷰 내에 아이템 배치, 시각적 스타일을 결정한다. 컬렉션뷰 데이터소스가 뷰와 표시할 컨텐츠를 제공한다면 레이아웃 객체는 크기, 위치 및 해당 뷰의 레이아웃과관련된 특성들을 결정한다.
+
+![collectionsView](./images/collectionsView.png)
+
+![collectionView2](./images/collectionView2.png)
+
+![collectionViewEx](./images/collectionViewEx.png)
+
+### 컬렉션뷰 구현을 위한 클래스/프로토콜
+
+##### 최상위 포함 및 관리
+
+- `UICollectionView` : 컬렉션뷰의 컨텐츠가 보이는 영영을 정의한다.
+- `UICollectionViewController` : 컬렉션뷰를 관리하는 뷰컨트롤러이다. (선택적 사용)
+
+##### 컨텐츠 관리
+
+- `UICollectionViewDataSource 프로토콜` : (필수) 컬렉션뷰의 컨텐츠 관리, 표시
+
+- `UICollectionViewDelegate 프로토콜` : 컬렉션뷰와 사용자 상호작용, 셀강조 표시 및 선택 관리
+
+##### 표시
+
+- `UICollectionViewReusableView` : 컬렉션에 표시된 모든 뷰는 UICollectionViewReusableView의 인스턴여야한다. 재사용 매커니즘을 지원한다. 새로운 뷰를 생성하는대신 재사용을 하여 성능을 향상시킨다.
+- `UICollectionViewCell` : 컬렉션뷰의 셀을 지칭한다.
+
+##### 레이아웃
+
+- `UICollectionViewLayout` : UICollectionViewLayout의 서브클래스를 레이아웃 객체라고한다. 컬렉션뷰의 셀과 재사용 가능한 뷰의 위치, 크기 및 시각적 속성을 정의한다.
+
+- `UICollectionViewLayoutAttribute` : 셀과 재사용가능한 뷰를 표시하는 위치와 방법을 명시한다.
+- `UICollectionViewUpdateItem` : 레이아웃 객체(아이템)이 삽입, 삭제되거나 혹은 컬렉션뷰 내에서 이동할때 마다 레이아웃객체는 UICollectionViewLayoutUpdateItem클래스의 인스턴스를 받는다.
+
+##### 플로우 레이아웃
+
+- `UICollectionViewFlowLayout & UICollectionViewDelegateFlowLayout 프로토콜`  : 그리드, 라인기반 레이아웃을 구현하는데 사용된다. 클래스를 그대로 사용하거나 동적으로 커스터마이징 할수 있다. 델리게이트 객체와 함께 사용할수 있다.
+
+### 컬렉션뷰와 관련된 클래스 및 프로토콜
+
+- `UICollectionView` : 사용자에게 보여질 컬렉션 형태의 뷰입니다. 
+- `UICollectionViewCell` : UICollectionView 인스턴스에 제공되는 데이터를 화면에 표시하는 역할을 담당합니다.
+- `UICollectionReusableView` : 뷰 재사용 메커니즘을 지원합니다.
+- `UICollectionViewFlowLayout` : 컬렉션뷰를 위한 디폴트 클래스로, 그리드 스타일로 셀들을 배치하도록 설계되어있습니다. scrollDirection 프로퍼티를 통해 수평 및 수직 스크롤을 지원합니다.
+- `UICollectionViewLayoutAttributes `: 컬렉션뷰 내의 지정된 아이템의 레이아웃 관련 속성을 관리합니다.
+- `UICollectionViewDataSource 프로토콜` : 컬렉션뷰에 필요한 데이터 및 뷰를 제공하기 위한 기능을 정의한 프로토콜입니다.
+- `UICollectionViewDelegate 프로토콜` : 컬렉션뷰에서 아이템의 선택 및 강조 표시를 관리하고 해당 아이템에 대한 작업을 수행할 수 있는 기능을 정의한 프로토콜입니다.
+- `UICollectionViewDelegateFlowLayout 프로토콜` : UICollectionViewLayout 객체와 함께 그리드 기반 레이아웃을 구현하기 위한 기능을 정의한 프로토콜입니다.
+
+
+
+## 컬렉션뷰 셀
+
+- 컬렉션뷰는 냉장고 / 컬렉션뷰 셀은 반찬통 (컨텐츠를 담고있는 뷰)
+- 데이터 아이템을 화면에 표시한다.
+- 하나의 셀은 하나의 데이터 아이템을 화면에 표시한다.
+- 셀은 두개의 배경을 표시하는 뷰와 하나의 컨텐츠를 표시하는 뷰로 구성되어있다.
+- 두개의 배경뷰는 셀이 선택되었을 때 사용자에게 시각적인 표현을 제공하기 위해 사용된다.
+- 셀의 레이아웃은 컬렉션뷰의 레이아웃 객체에의해 관리된다.
+- 셀은 뷰의 재사용 매커니즘을 지원한다.
+- 일반적으로 컬렉션뷰 셀 클래스의 인스턴스는 직접 생성하지 않는다.
+- **대신 특정 셀의 하위 클래스를 컬렉션뷰 객체에 등록한 후, 컬렉션뷰 셀 클래스의 새로운 인스턴스가 필요할 때, 컬렉션의 `dequeueReusableCell()`메서드를 호출한다.**
+  - 스토리보드를 사용하여 셀을 구성하면 컬렉션뷰에 따로 셀 클래스를 등록할 필요는 없다.
+
+
+
+### UICollectionViewCell 클래스
+
+#### 컬렉션뷰 셀의 구성요소 관련 프로퍼티
+
+- `var contentView: UIView` : 셀의 콘텐츠를 표시하는 뷰입니다.
+- `var backgroundView: UIView?` : 셀의 배경을 나타내는 뷰입니다. 이 프로퍼티는 셀이 처음 로드되었을 경우와 셀이 강조 표시되지 않거나 선택되지 않을 때 항상 기본 배경의 역할을 합니다.
+- `var selectedBackgroundView: UIView?` : 셀이 선택되었을 때 배경뷰 위에 표시되는 뷰입니다. 이 프로퍼티는 셀이 강조 표시되거나 선택될 때마다 기본 배경 뷰인 `backgroundView`를 대체하여 표시됩니다.
+
+#### 컬렉션뷰 셀의 상태 관련 프로퍼티
+
+- `var isSelected: Bool` : 셀이 선택되었는지를 나타냅니다. 셀이 선택되어있지 않다면 이 프로퍼티의 값은 false입니다.
+- `var isHighlighted: Bool` : 셀의 하이라이트 상태를 나타냅니다. 하이라이트 되어있지 않다면 기본 값은 false입니다.
+
+#### 컬렉션뷰 셀의 드래그 상태 관련 메서드
+
+- `func dragStateDidChange(_:)` : 셀의 드래그 상태가 변경되면 호출됩니다.
+  - 드래그의 상태는 `UICollectionViewCellDragState`의 열거형으로 표현되고 `none`, `lifting`, `dragging`의 3가지 상태를 갖습니다.
+
+
+
+### 컬렉션뷰 셀 vs 테이블뷰 셀
+
+- 테이블뷰 셀의 구조는 **콘텐츠 영역**과 **액세서리뷰 영역**으로 나뉘었지만, 컬렉션뷰 셀은 **배경뷰**와 실제 콘텐츠를 나타내는 **콘텐츠뷰**로 나뉘었습니다.
+- 테이블뷰 셀은 기본으로 제공되는 특정 스타일을 적용할 수 있지만 컬렉션뷰 셀은 특정한 스타일이 따로 없습니다.
+- 테이블뷰 셀은 목록형태로만 레이아웃 되지만, 컬렉션뷰 셀은 **다양한 레이아웃을 지원**합니다.
+
+
+
+## 컬렉션뷰 데이터소스&델리게이트
+
+### 컬렉션뷰 데이터소스 
+
+- 필수로 명시해야한다. 컬렉션뷰의 컨텐츠(데이터)를 관리하고 표현하는데 필요한 뷰를 만든다.
+
+##### 필수 메서드
+
+- `collectionView(_:numberOfItemsInSection:)` : 지정된 섹션에 표시할 항목의 개수를 묻는 메서드.
+
+- `collectionView(_:cellForItemAt:)` : 컬렉션뷰의 지정된 위치에 표시할 셀을 요청하는 메서드.
+
+##### 주요 선택 메서드
+
+- `numberOfSections(in:)` : 컬렉션뷰의 섹션의 개수를 묻는 메서드. 이 메서드를 구현하지 않으면 섹션 개수 기본 값은 1.
+
+- `collectionView(_:canMoveItemAt:)` : 지정된 위치의 항목을 컬렉션뷰의 다른 위치로 이동할 수 있는지를 묻는 메서드.
+
+- `collectionView(_:moveItemAt:to:)` : 지정된 위치의 항목을 다른 위치로 이동하도록 지시하는 메서드.
+
+
+
+### 컬렉션뷰 델리게이트
+
+- 셀의 선택, 강조표시를 관리한다.
+- 해당 셀에 대한 작업을 수행할 수 있는 메서드를 정의한다.
+
+##### **주요 메서드**
+
+- `collectionView(_:shouldSelectItemAt:)` : 지정된 셀이 사용자에 의해 선택될 수 있는지 묻는 메서드.
+
+  선택이 가능한 경우 true 로 응답하며 아닌 경우는 false로 응답.
+
+- `collectionView(_:didSelectItemAt:)` : 지정된 셀이 선택되었음을 알리는 메서드.
+
+- `collectionView(_:shouldDeselectItemAt:)` : 지정된 셀의 선택이 해제될 수 있는지 묻는 메서드. 선택 해제가 가능한 경우 true로 응답하며, 그렇지 않다면 false로 응답.
+
+- `collectionView(_:didDeselectItemAt:)` : 지정된 셀의 선택이 해제되었음을 알리는 메서드.
+
+- `collectionView(_:shouldHighlightItemAt:)` : 지정된 셀이 강조될 수 있는지 묻는 메서드. 강조해야 하는 경우 true로 응답하며, 그렇지 않다면 false로 응답.
+
+- `collectionView(_:didHighlightItemAt:)` : 지정된 셀이 강조되었을 때 알려주는 메서드.
+
+- `collectionView(_:didUnhighlightItemAt:)` : 지정된 셀이 강조가 해제될 때 알려주는 메서드.
+
+
+
+## UICollectionViewFlowLayout
+
+- 컬렉션뷰의 셀을 원하는 형태로 정렬할 수 있다.
+- 플로우레이아웃은 레이아웃 객체가 셀을 선형 경로에 배치하고 최대한 이 행을 따라 많은 셀을 채우는 것을 의미한다.
+- 현재 행에서 레이아웃 객체의 공간이 부족하면 새로운 행을 생성하고 거기에서 레이아웃 프로세스를 게속 진행한다.
+
+
+
+**플로우 레이아웃 수직 스크롤**
+
+![flowLayout1](./images/flowLayout1.png)
+
+**플로우 레이아웃 수평 스크롤**
+
+![flowLayout2](./images/flowLayout2.png)
+
+> 플로우 레이아웃을 이용하면 그리드 형태뿐 아니라 다양한 레이아웃을 구현할 수 있다.
+>
+> 예를들어 아래와 같이 셀 하나를 하나의 행으로 만들어서 정렬하고 간격을 조정할 수도 있다.
+
+**플로우 레이아웃 단일 행**
+
+![flowLayout3](./images/flowLayout3.png)
+
+#### 플로우 레이아웃 구성 단계
+
+1. 플로우 레이아웃 객체를 작성해 컬렉션뷰의 레이아웃 객체로 지정합니다.
+2. 셀의 너비와 높이를 구성합니다.
+3. 필요한 경우 셀의 간격을 조절합니다.
+4. 원할 경우 섹션 헤더 혹은 섹션 푸터를 크기를 지정합니다.
+5. 레이아웃의 스크롤 방향을 설정합니다.
+
+Tip : 플로우 레이아웃은 대부분 프로퍼티의 기본값을 가지고 있습니다. 하지만 셀의 너비와 높이는 모두 0으로 지정되어 있기 때문에 셀의 크기는 지정해주어야 합니다. 그렇지 않을 경우 셀의 너비와 높이의 기본값이 0이기 때문에 셀이 화면에 보이지 않을 수도 있습니다.
+
+#### 플로우 레이아웃 속성 변경하기
+
+- 플로우 레이아웃 객체는 콘텐츠의 모양을 구성하기 위해 여러 가지 프로퍼티를 제공합니다. 
+- 이 프로퍼티에 적절한 값을 설정하면 모든 셀에 동일한 레이아웃이 적용됩니다.
+- 예를 들면 플로우 레이아웃 객체의 `itemSize` 프로퍼티를 사용하여 셀의 크기를 설정할 경우 모든 셀의 크기가 동일하게 적용됩니다.
+
+#### 플로우 레이아웃의 셀 크기 지정하기 
+
+- 컬렉션뷰의 모든 셀이 같은 크기인 경우 플로우 레이아웃 객체의 `itemSize`의 프로퍼티에 적절한 너비와 높이 값을 할당합니다. 
+- 각각의 셀마다 다른 크기를 지정하려면 컬렉션뷰 델리게이트에서 `collectionView:layout:sizeForItemAtIndexPath:` 메서드를 구현해야 합니다. 
+- 메서드의 매개변수로 제공하는 인덱스 경로 정보를 사용해 해당 셀의 크기를 반환할 수 있습니다.
+
+#### 셀 및 행의 사이 간격 지정하기
+
+- 플로우 레이아웃을 사용하여 같은 행의 셀 사이의 최소 간격과 연속하는 행 사이의 최소 간격을 지정할 수 있습니다. 
+- 여기서 명심해야 하는 점은 설정하는 간격은 최소 간격이라는 점입니다. 
+- 행끼리의 간격은 플로우 레이아웃 객체에서 셀끼리의 간격에서와 같은 방법을 사용합니다. 
+- 모든 셀의 크기가 같다면 플로우 레이아웃은 행 간격의 최솟값을 절대적으로 수용하며 하나의 행에 있는 모든 셀이 다음 행의 셀과 균등한 간격을 유지할 수 있습니다.
+
+#### 콘텐츠 여백 수정하기
+
+- 섹션 인셋은 셀을 배치할 때 여백공간을 조절하는 방법의 하나입니다. 
+- 인셋을 사용해 섹션 헤더뷰 다음과 푸터뷰 앞에 공간을 삽입할 수 있습니다. 
+- 또, 콘텐츠의 면 주위에 공간을 삽입할 수도 있습니다. 
+- 인셋은 셀 배치에 있어서 사용 가능한 공간을 줄이기 때문에 이를 사용하여 주어진 행의 셀 수를 제한할 수도 있습니다.
+
+```swift
+let inset = UIEdgeInsetsMake(top, left, botom, right)
+```
+
+#### 셀 예상(Estimated) 크기 지정
+
+- iOS 8 이전의 버전에서는 셀의 크기를 조정하는 방법이 크게 두 가지 있었습니다. 
+- 첫 번째 방법은 `UICollectionViewFlowLayout` 클래스의 `itemSize`프로퍼티를 이용해 모든 셀을 같은 크기로 설정하는 방법이고, 
+- 두 번째 방법은 `UICollectionViewDelegateFlowLayout` 프로토콜의 `collectionView(_:layout:sizeForItemAt:)` 메서드를 사용해 셀마다 다른 크기를 지정하는 방법이 있었습니다. iOS 8부터는 새로운 방법이 하나 추가되었습니다. 
+- 셀에 오토레이아웃을 적용하고(앞의 두 가지 방법에도 셀에 오토레이아웃을 적용할 수는 있습니다) 셀 스스로 크기를 결정한 후 이를 `UICollectionViewLayout` 객체에 알려줍니다. 
+- 이 방법을 사용하려면 `estimatedItemSize` 프로퍼티를 사용해 대략적인 셀의 최소 크기를 미리 알려줍니다.
+
+```swift
+let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+flowLayout.estimatedItemSize = CGSize(width: 50.0, height: 50.0)
+
+collectionView.collectionViewLayout = flowLayout
+```
+
+
+
+### UICollectionViewDelegateFlowLayout
+
+- `UICollectionViewDelegateFlowLayout` 프로토콜은 `UICollectionViewFlowLayout` 객체와 상호작용하여 레이아웃을 조정할 수 있는 메서드가 정의되어 있습니다. 
+- 이 프로토콜의 메서드는 셀의 크기와 셀 간의 사이 간격을 정의합니다. 이 프로토콜의 메서드는 전부 선택사항입니다.
+
+ 
+
+**주요 선택 메서드**
+
+- collectionView(_:layout:sizeForItemAt:) -> CGSize : 지정된 셀의 크기를 반환하는 메서드.
+
+  ```swift
+  optional func collectionView(_ collectionView: UICollectionView, 
+                     layout collectionViewLayout: UICollectionViewLayout, 
+              sizeForItemAt indexPath: IndexPath) -> CGSize
+  ```
+
+- collectionView(_:layout:insetForSectionAt:) -> UIEdgeInsets : 지정된 섹션의 여백을 반환하는 메서드.
+
+  ```swift
+  optional func collectionView(_ collectionView: UICollectionView, 
+                     layout collectionViewLayout: UICollectionViewLayout, 
+                     insetForSectionAt section: Int) -> UIEdgeInsets
+  ```
+
+- collectionView(_:layout:minimumLineSpacingForSectionAt:) -> CGFloat : 지정된 섹션의 행 사이 간격 최소 간격을 반환하는 메서드. scrollDirection이 horizontal이면 수직이 행이 되고 vertical이면 수평이 행이 된다.
+
+  ```swift
+  optional func collectionView(_ collectionView: UICollectionView, 
+                     layout collectionViewLayout: UICollectionViewLayout,
+                     minimumLineSpacingForSectionAt section: Int) -> CGFloat
+  ```
+
+- collectionView(_:layout:minimumInteritemSpacingForSectionAt:) -> CGFloat : 지정된 섹션의 셀 사이의 최소간격을 반환하는 메서드.
+
+  ```swift
+  optional func collectionView(_ collectionView: UICollectionView, 
+                     layout collectionViewLayout: UICollectionViewLayout,
+                     minimumInteritemSpacingForSectionAt section: Int) -> CGFloat
+  ```
+
+- collectionView(_:layout:referenceSizeForHeaderInSection:) -> CGSize : 지정된 섹션의 헤더뷰의 크기를 반환하는 메서드. 크기를 지정하지 않으면 화면에 보이지 않습니다.
+
+  ```swift
+  optional func collectionView(_ collectionView: UICollectionView, 
+                     layout collectionViewLayout: UICollectionViewLayout,
+                     referenceSizeForHeaderInSection section: Int) -> CGSize
+  ```
+
+- collectionView(_:layout:referenceSizeForFooterInSection:) -> CGSize : 지정된 섹션의 푸터뷰의 크기를 반환하는 메서드. 크기를 지정하지 않으면 화면에 보이지 않습니다.
+
+  ```swift
+  optional func collectionView(_ collectionView: UICollectionView, 
+                     layout collectionViewLayout: UICollectionViewLayout,
+                     referenceSizeForFooterInSection section: Int) -> CGSize
+  ```
