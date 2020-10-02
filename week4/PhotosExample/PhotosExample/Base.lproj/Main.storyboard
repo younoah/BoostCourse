@@ -74,7 +74,7 @@
         <scene sceneID="a2Z-s2-duY">
             <objects>
                 <viewController id="Lui-fc-WEg" customClass="ImageZoomViewController" customModule="PhotosExample" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="EJ9-Rx-Ppp">
+                    <view key="view" contentMode="scaleToFill" id="EJ9-Rx-Ppp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -114,7 +114,9 @@
                     <toolbarItems>
                         <barButtonItem systemItem="refresh" id="ndA-8o-cJC"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" id="L1d-U3-3Ne"/>
+                    <navigationItem key="navigationItem" id="L1d-U3-3Ne">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Mya-NW-iKH"/>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageView" destination="NsP-PH-kQ9" id="idz-QX-iNQ"/>
