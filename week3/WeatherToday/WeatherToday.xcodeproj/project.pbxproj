@@ -115,7 +115,9 @@
 		8D34A64C251B7112008BCF2E /* WeatherToday */ = {
 			isa = PBXGroup;
 			children = (
-				8D34A698251B776B008BCF2E /* Models */,
+				8D52633B252CAC530025FA69 /* Controller */,
+				8D52633A252CAC3F0025FA69 /* View */,
+				8D34A698251B776B008BCF2E /* Model */,
 				8D34A64D251B7112008BCF2E /* AppDelegate.swift */,
 				8D34A64F251B7112008BCF2E /* SceneDelegate.swift */,
 				8D34A651251B7112008BCF2E /* CountryViewController.swift */,
@@ -151,13 +153,27 @@
 			path = WeatherTodayUITests;
 			sourceTree = "<group>";
 		};
-		8D34A698251B776B008BCF2E /* Models */ = {
+		8D34A698251B776B008BCF2E /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				8D34A699251B778A008BCF2E /* CountryModel.swift */,
 				8D34A69E251B7797008BCF2E /* CityModel.swift */,
 			);
-			path = Models;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8D52633A252CAC3F0025FA69 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8D52633B252CAC530025FA69 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
