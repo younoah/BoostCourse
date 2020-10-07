@@ -17,7 +17,9 @@
   
   - https://shark-sea.kr/entry/iOS-ARC-strong-weak-unowned
   
-- private, lazy변수
+- static : 타입프로퍼티
+
+- lazy변수
 
 - override func
 
@@ -188,7 +190,35 @@ self.imageView.image = image
 
 
 
+## 개념정리
+
+### 접근 레벨 (open, public, internal, file-private, private)
+
+> 참고 : https://zeddios.tistory.com/383
+
+- Access Control(접근 제어)는 다른 소스파일 및 모듈의 코드에서, 코드의 일부에 대한 **액세스(접근)을 제한**합니다.
+
+- 개별 타입(individual types)(클래스, 구조체 및 열거) 뿐만아니라, 해당 타입에 속하는 프로퍼티, 메소드, 이니셜라이저 및 첨자(subscripts)에 대해 특정 접근 레벨을 지정 할 수 있습니다. 
+- Swift에는 5가지 접근 레벨(Access Level)이 있다. (open, public, internal, file-private, private)
+- open 접근은 가장 높은(**가장 제한이 적은**) 접근 레벨이며, private 접근은 가장 낮은(**가장 제한적인**) 접근 레벨이다.
+- 간단하게 open-> public -> internal -> file-private -> private으로 갈 수록 더 제한적이라고 생각면된다.
 
 
 
+### 타입 프로퍼티 (static)
 
+> 참고 : https://zeddios.tistory.com/251
+
+1. 프로퍼티를 "타입 자체"에 연결할 수 있는데, 그게 타입 프로퍼티다.
+
+2. 타입프로퍼티에는, 저장 **타입** 프로퍼티와 연산 **타입** 프로퍼티가 있다.
+
+3. 저장 타입 프로퍼티는 상수/변수 일 수 있다. -> let / var로 선언이 가능, 또한 무조건 기본값을 줘야한다. 또 처음 엑세스 할 때는 초기화를 게으르게한다. 하지만 lazy키워드는 필요없다.
+
+4. 연산 타입 프로퍼티는 무조건 변수로 선언되어야한다. -> var로만 선언이 가능
+
+
+
+### 클로저
+
+> 참고 : https://hcn1519.github.io/articles/2017-05/swift_closure

@@ -8,6 +8,13 @@
 import UIKit
 
 class MovieCollectionViewCell: UICollectionViewCell {
+    
+    // MARK:- properties
+    @IBOutlet weak var movieImageView: UIImageView!
+    @IBOutlet weak var movieGradeImageView: UIImageView!
+    @IBOutlet weak var movieTitleLabel: UILabel!
+    @IBOutlet weak var movieInfoLabel: UILabel!
+    @IBOutlet weak var movieDateLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()

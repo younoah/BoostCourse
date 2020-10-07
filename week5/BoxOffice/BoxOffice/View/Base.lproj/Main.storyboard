@@ -31,7 +31,14 @@
                             <constraint firstItem="MHq-LV-uGs" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Vwl-xv-WZW"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="ylp-W9-wct"/>
+                    <navigationItem key="navigationItem" id="ylp-W9-wct">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="ic_settings" id="sNY-q8-SFi">
+                            <color key="tintColor" systemColor="systemIndigoColor"/>
+                            <connections>
+                                <action selector="touchUpShowActionSheetButton:" destination="BYZ-38-t0r" id="MWy-RB-pmZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="MHq-LV-uGs" id="jTX-mR-1fF"/>
                     </connections>
@@ -108,7 +115,14 @@
                             <constraint firstItem="l3s-wF-oBx" firstAttribute="trailing" secondItem="EEV-sb-XHA" secondAttribute="trailing" id="un2-sB-GdB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="nvj-Wx-W9U"/>
+                    <navigationItem key="navigationItem" id="nvj-Wx-W9U">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="ic_settings" id="kWi-rc-HT7">
+                            <color key="tintColor" systemColor="systemIndigoColor"/>
+                            <connections>
+                                <action selector="touchUpShowActionSheetButton:" destination="NEa-iY-q2s" id="8EV-fB-AZH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="EEV-sb-XHA" id="Snr-Xd-yOK"/>
                     </connections>
@@ -185,6 +199,7 @@
     <resources>
         <image name="ic_collection" width="25" height="25"/>
         <image name="ic_list" width="24" height="24"/>
+        <image name="ic_settings" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
