@@ -25,94 +25,94 @@ class MovieTableViewController: UIViewController {
         
         let nibName = UINib(nibName: "MovieTableViewCell", bundle: nil)
         tableView.register(nibName, forCellReuseIdentifier: cellIdentifier)
-        
-        getJsonUrl(orderType: "0")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+//        API.requestMovies(0)
     }
 
 }
 
 // MARK:- Action Sheet
 extension MovieTableViewController {
-    
+
     @IBAction func touchUpShowActionSheetButton(_ sender: UIButton) {
         let alertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: .actionSheet)
-        
+
         let reservationRateAction = UIAlertAction(title: "예매율", style: UIAlertAction.Style.default) {
             (action : UIAlertAction) in
-            self.getJsonUrl(orderType: "0")
             self.navigationItem.title = "예매율순"
         }
-        
+
         let currationAction = UIAlertAction(title: "큐레이션", style: UIAlertAction.Style.default) {
             (action : UIAlertAction) in
-            self.getJsonUrl(orderType: "1")
             self.navigationItem.title = "큐레이션"
         }
-        
+
         let openingDay = UIAlertAction(title: "개봉일", style: UIAlertAction.Style.default) {
             (action : UIAlertAction) in
-            self.getJsonUrl(orderType: "2")
             self.navigationItem.title = "개봉일순"
         }
-        
+
         let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
-        
+
         alertController.addAction(reservationRateAction)
         alertController.addAction(currationAction)
         alertController.addAction(openingDay)
         alertController.addAction(cancelAction)
-        
+
         self.present(alertController, animated: true)
     }
-    
+
 }
 
 // MARK:- Get Movie data
-extension MovieTableViewController {
-    
-    func getJsonUrl(orderType: String) {
-        
-        if orderType == "0" {
-            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=0") else { return }
-            getDatafromUrl(url: orderUrl)
-        }
-        else if orderType == "1" {
-            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=1") else { return }
-            getDatafromUrl(url: orderUrl)
-        }
-        else if orderType == "2" {
-            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=2") else { return }
-            getDatafromUrl(url: orderUrl)
-        }
-    }
-    
-    func getDatafromUrl(url: URL) {
-        let session = URLSession(configuration: .default)
-        let dataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
-            
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            guard let data = data else { return }
-            
-            do {
-                let moiveResponse = try JSONDecoder().decode(MovieResponse.self, from: data)
-                self.movies = moiveResponse.movies
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            } catch(let err) {
-                print(err.localizedDescription)
-            }
-        }
-        dataTask.resume()
-    }
-    
-}
+//extension MovieTableViewController {
+//
+//    func getJsonUrl(orderType: String) {
+//
+//        if orderType == "0" {
+//            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=0") else { return }
+//            getDatafromUrl(url: orderUrl)
+//        }
+//        else if orderType == "1" {
+//            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=1") else { return }
+//            getDatafromUrl(url: orderUrl)
+//        }
+//        else if orderType == "2" {
+//            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=2") else { return }
+//            getDatafromUrl(url: orderUrl)
+//        }
+//    }
+//
+//    func getDatafromUrl(url: URL) {
+//        let session = URLSession(configuration: .default)
+//        let dataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
+//
+//            if let error = error {
+//                print(error.localizedDescription)
+//                return
+//            }
+//
+//            guard let data = data else { return }
+//
+//            do {
+//                let moiveResponse = try JSONDecoder().decode(MovieResponse.self, from: data)
+//                self.movies = moiveResponse.movies
+//
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//
+//            } catch(let err) {
+//                print(err.localizedDescription)
+//            }
+//        }
+//        dataTask.resume()
+//    }
+//
+//}
 
 // MARK:- TableView DataSource
 extension MovieTableViewController: UITableViewDataSource {

@@ -225,6 +225,15 @@ self.imageView.image = image
 
 
 
+### 터미널에서 xcode로 열기
+
+```
+$touch Package.swift # 파일만들기
+$open -a Xcode ./Package.swift # xcode로 파일 열기
+```
+
+
+
 ### API 서버 네트워킹
 
 1. url을 정의한다.
