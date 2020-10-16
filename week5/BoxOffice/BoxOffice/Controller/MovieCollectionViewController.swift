@@ -21,12 +21,15 @@ class MovieCollectionViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        navigationItem.title = "컬렉션"
+        navigationItem.title = "예매율"
         
         let nibName = UINib(nibName: "MovieCollectionViewCell", bundle: nil)
         collectionView.register(nibName, forCellWithReuseIdentifier: cellIdentifier)
         
-        getJsonUrl(orderType: "0")
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didRecevieMovieCollectionNotification), name: DidReceiveMoviesNotification, object: nil)
+        
+        API.getMovies(orderType: MovieSort.shared.orderTypeNumber)
+        
         
 //        let flowLayout = UICollectionViewFlowLayout()
 //        flowLayout.sectionInset = UIEdgeInsets.zero //인셋 없애기
@@ -34,87 +37,24 @@ class MovieCollectionViewController: UIViewController {
 //        flowLayout.minimumLineSpacing = 30 // 아이템의 줄간의 거리는 최소 10
     }
     
-}
-
-// MARK:- Action Sheet
-extension MovieCollectionViewController {
-    
-    @IBAction func touchUpShowActionSheetButton(_ sender: UIButton) {
-        let alertController = UIAlertController(title: "정렬방식 선택", message: "영화를 어떤 순서로 정렬할까요?", preferredStyle: .actionSheet)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        let reservationRateAction = UIAlertAction(title: "예매율", style: UIAlertAction.Style.default) {
-            (action : UIAlertAction) in
-            self.getJsonUrl(orderType: "0")
-            self.navigationItem.title = "예매율순"
-        }
-        
-        let currationAction = UIAlertAction(title: "큐레이션", style: UIAlertAction.Style.default) {
-            (action : UIAlertAction) in
-            self.getJsonUrl(orderType: "1")
-            self.navigationItem.title = "큐레이션"
-        }
-        
-        let openingDay = UIAlertAction(title: "개봉일", style: UIAlertAction.Style.default) {
-            (action : UIAlertAction) in
-            self.getJsonUrl(orderType: "2")
-            self.navigationItem.title = "개봉일순"
-        }
-        
-        let cancelAction = UIAlertAction(title: "취소", style: UIAlertAction.Style.cancel, handler: nil)
-        
-        alertController.addAction(reservationRateAction)
-        alertController.addAction(currationAction)
-        alertController.addAction(openingDay)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true)
     }
     
 }
 
-// MARK:- Get Data
+// MARK:- Methods
 extension MovieCollectionViewController {
     
-    func getJsonUrl(orderType: String) {
-        
-        if orderType == "0" {
-            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=0") else { return }
-            getDatafromUrl(url: orderUrl)
-        }
-        else if orderType == "1" {
-            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=1") else { return }
-            getDatafromUrl(url: orderUrl)
-        }
-        else if orderType == "2" {
-            guard let orderUrl = URL(string: "https://connect-boxoffice.run.goorm.io/movies?order_type=2") else { return }
-            getDatafromUrl(url: orderUrl)
-        }
+    @objc func didRecevieMovieCollectionNotification(_ noti:Notification){
+        guard let movies:[Movie] = noti.userInfo?["movies"] as? [Movie] else {return}
+        self.movies = movies
+        collectionView.reloadData()
     }
     
-    func getDatafromUrl(url: URL) {
-        let session = URLSession(configuration: .default)
-        let dataTask = session.dataTask(with: url) { (data: Data?, response: URLResponse?, error: Error?) in
-            
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            guard let data = data else { return }
-            
-            do {
-                let moiveResponse = try JSONDecoder().decode(MovieResponse.self, from: data)
-                self.movies = moiveResponse.movies
-                
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-                
-            } catch(let err) {
-                print(err.localizedDescription)
-            }
-        }
-        dataTask.resume()
+    @IBAction func touchUpSettingButton() {
+        MovieSortActionSheet.touchUpShowActionSheetButton(self)
     }
     
 }

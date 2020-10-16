@@ -35,7 +35,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="ic_settings" id="sNY-q8-SFi">
                             <color key="tintColor" systemColor="systemIndigoColor"/>
                             <connections>
-                                <action selector="touchUpShowActionSheetButton:" destination="BYZ-38-t0r" id="MWy-RB-pmZ"/>
+                                <action selector="touchUpSettingButton" destination="BYZ-38-t0r" id="rZx-Tw-8BS"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -54,8 +54,20 @@
                     <view key="view" contentMode="scaleToFill" id="bQ7-4v-XCr">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8lg-ls-CRd">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="7Yp-SX-wje"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="8lg-ls-CRd" firstAttribute="leading" secondItem="7Yp-SX-wje" secondAttribute="leading" id="Msz-8p-2xx"/>
+                            <constraint firstItem="8lg-ls-CRd" firstAttribute="top" secondItem="7Yp-SX-wje" secondAttribute="top" id="O2L-3Q-RSL"/>
+                            <constraint firstItem="7Yp-SX-wje" firstAttribute="bottom" secondItem="8lg-ls-CRd" secondAttribute="bottom" id="Spb-8t-bGA"/>
+                            <constraint firstItem="7Yp-SX-wje" firstAttribute="trailing" secondItem="8lg-ls-CRd" secondAttribute="trailing" id="XYs-4a-VtZ"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bkn-Wh-Vyu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -75,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Frd-d3-0tf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3293" y="429"/>
+            <point key="canvasLocation" x="3371" y="429"/>
         </scene>
         <!--Movie Collection View Controller-->
         <scene sceneID="mjF-h2-Ysz">
@@ -119,7 +131,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Item" image="ic_settings" id="kWi-rc-HT7">
                             <color key="tintColor" systemColor="systemIndigoColor"/>
                             <connections>
-                                <action selector="touchUpShowActionSheetButton:" destination="NEa-iY-q2s" id="8EV-fB-AZH"/>
+                                <action selector="touchUpSettingButton" destination="NEa-iY-q2s" id="fgx-0B-Ekw"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
