@@ -26,7 +26,10 @@ class MovieCollectionViewController: UIViewController {
         let nibName = UINib(nibName: "MovieCollectionViewCell", bundle: nil)
         collectionView.register(nibName, forCellWithReuseIdentifier: cellIdentifier)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didRecevieMovieCollectionNotification), name: DidReceiveMoviesNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didRecevieMovieCollectionNotification),
+            name: API.DidReceiveMoviesNotification, object: nil)
         
         API.getMovies(orderType: MovieSort.shared.orderTypeNumber)
         

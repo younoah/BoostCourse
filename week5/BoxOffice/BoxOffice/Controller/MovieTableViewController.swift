@@ -31,7 +31,7 @@ class MovieTableViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(self.didReceiveMoviesNotification(_:)),
-            name: DidReceiveMoviesNotification,
+            name: API.DidReceiveMoviesNotification,
             object: nil
         )
         

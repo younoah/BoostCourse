@@ -7,13 +7,18 @@
 
 import Foundation
 
-let DidReceiveMoviesNotification = Notification.Name("DidReceiveMovies")
+
 
 class API {
+    
+    static let DidReceiveMoviesNotification = Notification.Name("DidReceiveMovies")
+    static let DidReceiveMovieDetailNotification = Notification.Name("DidReceiveMovieDetail")
+    
     static let baseURL = "https://connect-boxoffice.run.goorm.io/"
     
     // HTTP Request GET Data Method
     // class 선언을 안했다면 그냥 requestGet()사용
+    // static으로 선언해도 된다.
     class func requestGet(url: String, completion: @escaping (Data?, URLResponse?, Error?) -> Void) {
         guard let url = URL(string: url) else { return }
         var request = URLRequest(url: url)
@@ -40,6 +45,7 @@ class API {
         dataTask.resume()
     }
     
+    // GET Movies list
     class func getMovies(orderType: Int) {
         // class 선언을 안했다면 그냥 requestGet()사용
         API.requestGet(url: "\(baseURL)/movies?order_type=\(orderType)") {
@@ -58,6 +64,31 @@ class API {
                         name: DidReceiveMoviesNotification,
                         object: nil,
                         userInfo: ["movies": movieResponse.movies])
+                }
+            } catch (let error) {
+                print(error)
+            }
+        }
+    }
+    
+    // GET Movies Detail Information
+    class func getMovieDetailInformation(movieID: String) {
+        API.requestGet(url: "\(baseURL)/movie?id=\(movieID)") {
+            (data: Data?, reponse: URLResponse?, error: Error?) in
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let responseData = data else { return }
+            
+            do {
+                let Response = try JSONDecoder().decode(MovieDetail.self, from: responseData)
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(
+                        name: DidReceiveMovieDetailNotification,
+                        object: nil,
+                        userInfo: ["movie": Response])
                 }
             } catch (let error) {
                 print(error)
