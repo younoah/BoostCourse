@@ -8,6 +8,8 @@
 import UIKit
 
 class CommentSectionHeader: UITableViewHeaderFooterView {
+    
+    @IBOutlet weak var writeButton: UIButton!
 
     
 }

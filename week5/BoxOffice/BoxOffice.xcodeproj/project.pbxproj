@@ -16,8 +16,8 @@
 		8D0EE7C92539FFC1004DC044 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0EE7C72539FFC1004DC044 /* CommentTableViewCell.swift */; };
 		8D0EE7CA2539FFC1004DC044 /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D0EE7C82539FFC1004DC044 /* CommentTableViewCell.xib */; };
 		8D0EE7D0253A0470004DC044 /* CommentSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D0EE7CE253A0470004DC044 /* CommentSectionHeader.swift */; };
-		8D0EE7D1253A0470004DC044 /* CommentSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D0EE7CF253A0470004DC044 /* CommentSectionHeader.xib */; };
 		8D1F68FF252D8EEA00A2E094 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D1F68FE252D8EEA00A2E094 /* Comment.swift */; };
+		8D3C787D253C518D00DC0011 /* CommentSectionHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D3C787C253C518D00DC0011 /* CommentSectionHeader.xib */; };
 		8D5262C3252C94A30025FA69 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5262C2252C94A30025FA69 /* AppDelegate.swift */; };
 		8D5262C5252C94A30025FA69 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5262C4252C94A30025FA69 /* SceneDelegate.swift */; };
 		8D5262C7252C94A30025FA69 /* MovieTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D5262C6252C94A30025FA69 /* MovieTableViewController.swift */; };
@@ -66,8 +66,8 @@
 		8D0EE7C72539FFC1004DC044 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
 		8D0EE7C82539FFC1004DC044 /* CommentTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		8D0EE7CE253A0470004DC044 /* CommentSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentSectionHeader.swift; sourceTree = "<group>"; };
-		8D0EE7CF253A0470004DC044 /* CommentSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentSectionHeader.xib; sourceTree = "<group>"; };
 		8D1F68FE252D8EEA00A2E094 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		8D3C787C253C518D00DC0011 /* CommentSectionHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentSectionHeader.xib; sourceTree = "<group>"; };
 		8D5262BF252C94A30025FA69 /* BoxOffice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BoxOffice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5262C2252C94A30025FA69 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8D5262C4252C94A30025FA69 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 				8D0EE7C72539FFC1004DC044 /* CommentTableViewCell.swift */,
 				8D0EE7C82539FFC1004DC044 /* CommentTableViewCell.xib */,
 				8D0EE7CE253A0470004DC044 /* CommentSectionHeader.swift */,
-				8D0EE7CF253A0470004DC044 /* CommentSectionHeader.xib */,
+				8D3C787C253C518D00DC0011 /* CommentSectionHeader.xib */,
 			);
 			path = Comment;
 			sourceTree = "<group>";
@@ -361,11 +361,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D3C787D253C518D00DC0011 /* CommentSectionHeader.xib in Resources */,
 				8D526324252C9F200025FA69 /* MovieCollectionViewCell.xib in Resources */,
 				8D0EE7A42539F698004DC044 /* MovieDetailInfomationTableViewCell.xib in Resources */,
 				8D5262CF252C94A60025FA69 /* LaunchScreen.storyboard in Resources */,
 				8D0EE7AB2539F6BD004DC044 /* MovieSynopsisTableViewCell.xib in Resources */,
-				8D0EE7D1253A0470004DC044 /* CommentSectionHeader.xib in Resources */,
 				8D5262CC252C94A60025FA69 /* Assets.xcassets in Resources */,
 				8D52631D252C9EFA0025FA69 /* MovieTableViewCell.xib in Resources */,
 				8D0EE7C22539F787004DC044 /* MovieDirectorTableViewCell.xib in Resources */,

@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct CommentResponse: Codable {
+    let comments: [Comment]
+}
+
 struct Comment: Codable {
     
     let id: String
@@ -21,7 +25,7 @@ struct Comment: Codable {
     }
 }
 
-struct PostComment: Encodable {
+struct PostComment: Codable {
     
     let rating: Double
     let writer, movieID, contents: String
