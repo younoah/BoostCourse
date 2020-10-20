@@ -11,9 +11,16 @@ class MovieDetailViewController: UIViewController {
     
     // MARK:- Properties
     @IBOutlet weak var tableView: UITableView!
+    var movieID: String?
     var movie: MovieDetail?
     var comments: [Comment] = []
-    
+    let indicator = Indicator()
+//    let indicatorView = UIActivityIndicatorView()
+    let formatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return dateFormatter
+    }()
     
     // MARK:- View Life Cycle
     override func viewDidLoad() {
@@ -59,22 +66,24 @@ class MovieDetailViewController: UIViewController {
             name: API.DidReceiveCommentsNotification,
             object: nil
         )
-        
-        API.getMovieDetailInformation(movieID: "5a54c286e8a71d136fb5378e")
-        API.getComments(movieID: "5a54c286e8a71d136fb5378e")
 
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tabBarController?.tabBar.isHidden = false
+        
+        // 아래는 뷰디드로드로에 정의하면 다음 뷰컨에서 팝되어 해당뷰컨으로 올때 인디케이터가 동작을 멈추지않는다.
+        // 유저가 댓글을 입력하고 팝되었을때 데이터를 다시 로드해야하기 때문에 뷰디드어피얼에 있어야한다.
+//        showIndicator()
+        indicator.showIndicator(self)
+        self.movieID = CurrentMovieInfo.shared.movieID
+        guard let movieID = self.movieID else { return }
+        API.getMovieDetailInformation(movieID: movieID)
+        API.getComments(movieID: movieID)
+        
     }
-    */
 
 }
 
@@ -98,6 +107,14 @@ extension MovieDetailViewController {
         self.tableView.reloadData()
 //        }
     }
+    
+//    func showIndicator() {
+//        view.addSubview(indicatorView)
+//        indicatorView.translatesAutoresizingMaskIntoConstraints = false
+//        indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        indicatorView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+//        indicatorView.startAnimating()
+//    }
     
 }
 
@@ -131,6 +148,27 @@ extension MovieDetailViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.movieTitleLabel.text = movie?.title
+            // 언래핑 수정하기
+            cell.movieGradeImageView.image = UIImage(named: movie?.gradeString ?? "")
+            cell.movieDateLabel.text = movie?.date
+            // 언래핑 수정하기
+            cell.movieUserRatingLabel.text = String(movie?.userRating ?? 0.0)
+            cell.movieAudienceLabel.text = String(movie?.audience ?? 0)
+            DispatchQueue.global().async {
+                guard let movie = movie else { return }
+                guard let imageURL: URL = URL(string: movie.image) else { return }
+                guard let imageData: Data = try? Data(contentsOf: imageURL) else { return }
+                DispatchQueue.main.async {
+                    if let index: IndexPath = tableView.indexPath(for: cell) {
+                        if index.row == indexPath.row {
+                            cell.movieImageView?.image = UIImage(data: imageData)
+                            cell.setNeedsLayout()
+                            cell.layoutIfNeeded()
+                            self.indicator.stopIndicator(self)
+                        }
+                    }
+                }
+            }
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(
@@ -156,6 +194,8 @@ extension MovieDetailViewController: UITableViewDataSource {
             }
             cell.writerNameLabel.text = comments[indexPath.row].writer
             cell.contentLabel.text = comments[indexPath.row].contents
+            cell.movieGradeLabel.text = "평점 : \(comments[indexPath.row].rating)"
+            cell.dateTimeLabel.text = "\(formatter.string(from: Date(timeIntervalSince1970: comments[indexPath.row].timestamp)))"
             return cell
         default:
             return UITableViewCell()
@@ -175,7 +215,7 @@ extension MovieDetailViewController: UITableViewDelegate {
             }
             return header
 
-        }else {
+        } else {
             return nil
         }
     }
@@ -183,15 +223,15 @@ extension MovieDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.section {
         case 0:
-            return 300
+            return 260
         case 1:
-            return 300
+            return UITableView.automaticDimension
         case 2:
             return 100
         case 3:
             return 100
         default:
-            return 300
+            return UITableView.automaticDimension
         }
     }
     

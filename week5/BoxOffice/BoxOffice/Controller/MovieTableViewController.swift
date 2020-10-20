@@ -12,6 +12,7 @@ class MovieTableViewController: UIViewController {
     // MARK:- properties
     @IBOutlet weak var tableView: UITableView!
     let cellIdentifier = "movieCell"
+    let indicator = Indicator()
     var movies: [Movie] = []
     
     // MARK:- View Life Cycle
@@ -20,8 +21,6 @@ class MovieTableViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
-        navigationItem.title = "예매율"
         
         tableView.register(
             UINib(nibName: "MovieTableViewCell", bundle: nil),
@@ -34,14 +33,14 @@ class MovieTableViewController: UIViewController {
             name: API.DidReceiveMoviesNotification,
             object: nil
         )
-        
-        API.getMovies(orderType: MovieSort.shared.orderTypeNumber)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        
+        indicator.showIndicator(self)
+        navigationItem.title = MovieSort.shared.orderTypesString[MovieSort.shared.orderTypeNumber]
+        API.getMovies(orderType: MovieSort.shared.orderTypeNumber)
     }
 
 }
@@ -93,6 +92,7 @@ extension MovieTableViewController: UITableViewDataSource {
                         cell.movieImageView?.image = UIImage(data: imageData)
                         cell.setNeedsLayout()
                         cell.layoutIfNeeded()
+                        self.indicator.stopIndicator(self)
                     }
                 }
             }
@@ -110,6 +110,10 @@ extension MovieTableViewController: UITableViewDelegate {
         guard let movieDetailViewController = self.storyboard?.instantiateViewController(identifier: "MovieDetailViewController") as? MovieDetailViewController else {
             return
         }
+        
+        CurrentMovieInfo.shared.movieID = movies[indexPath.row].id
+        CurrentMovieInfo.shared.movieName = movies[indexPath.row].title
+        CurrentMovieInfo.shared.movieGrade = movies[indexPath.row].gradeString
         
         navigationController?.pushViewController(movieDetailViewController, animated: true)
     }

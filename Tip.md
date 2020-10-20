@@ -2,9 +2,11 @@
 
 ### gitignore
 
+![gitIgnore](./images/gitIgnore.png)
+
 [https://gitignore.io](https://gitignore.io/)
 
-> 키워드 : swift, xcode, cocoapods
+> 키워드 : swift, xcode, cocoapods, macOS
 
 
 

@@ -12,6 +12,7 @@ class MovieCollectionViewController: UIViewController {
     // MARK:- properties
     @IBOutlet weak var collectionView: UICollectionView!
     let cellIdentifier = "movieCell"
+    let indicator = Indicator()
     var movies: [Movie] = []
 
     // MARK:- View Life Cycle
@@ -21,7 +22,7 @@ class MovieCollectionViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
-        navigationItem.title = "예매율"
+        
         
         let nibName = UINib(nibName: "MovieCollectionViewCell", bundle: nil)
         collectionView.register(nibName, forCellWithReuseIdentifier: cellIdentifier)
@@ -30,10 +31,7 @@ class MovieCollectionViewController: UIViewController {
             self,
             selector: #selector(self.didRecevieMovieCollectionNotification),
             name: API.DidReceiveMoviesNotification, object: nil)
-        
-        API.getMovies(orderType: MovieSort.shared.orderTypeNumber)
-        
-        
+    
 //        let flowLayout = UICollectionViewFlowLayout()
 //        flowLayout.sectionInset = UIEdgeInsets.zero //인셋 없애기
 //        flowLayout.minimumInteritemSpacing = 5 // 아이템간의 거리는 최소 10
@@ -43,6 +41,10 @@ class MovieCollectionViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+//        showIndicator()
+        indicator.showIndicator(self)
+        navigationItem.title = MovieSort.shared.orderTypesString[MovieSort.shared.orderTypeNumber]
+        API.getMovies(orderType: MovieSort.shared.orderTypeNumber)
     }
     
 }
@@ -64,6 +66,7 @@ extension MovieCollectionViewController {
 
 // MARK:- Collection View DataSource
 extension MovieCollectionViewController: UICollectionViewDataSource {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return movies.count
     }
@@ -91,6 +94,7 @@ extension MovieCollectionViewController: UICollectionViewDataSource {
                         cell.movieImageView.image = UIImage(data: imageData)
                         cell.setNeedsLayout()
                         cell.layoutIfNeeded()
+                        self.indicator.stopIndicator(self)
                     }
                 }
             }
@@ -110,6 +114,10 @@ extension MovieCollectionViewController: UICollectionViewDelegate {
             return
         }
         
+        CurrentMovieInfo.shared.movieID = movies[indexPath.row].id
+        CurrentMovieInfo.shared.movieName = movies[indexPath.row].title
+        CurrentMovieInfo.shared.movieGrade = movies[indexPath.row].gradeString
+        
         navigationController?.pushViewController(movieDetailViewController, animated: true)
     }
     
@@ -121,7 +129,7 @@ extension MovieCollectionViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 200, height: 400)
     }
-    
+
 //    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 //        return CGSize(width: 50, height: 50)
 //    }

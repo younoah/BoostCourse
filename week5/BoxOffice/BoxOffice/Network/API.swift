@@ -146,6 +146,8 @@ class API {
     }
     
     // POST comments
+    // POST 요청과 응답까지, 해당 앱에서는 응답 데이터는 필요없음.
+    // 노티피케이션도 굳이 필요없음
 //    class func postComment(body: PostComment) {
 //        guard let url = URL(string: "http://connect-boxoffice.run.goorm.io/comment") else { return }
 //
@@ -185,6 +187,8 @@ class API {
 //        dataTask.resume()
 //    }
     
+    // POST comments
+    // 오직 post요청만
     class func postComment(body: PostComment) {
         guard let url = URL(string: "http://connect-boxoffice.run.goorm.io/comment") else { return }
         

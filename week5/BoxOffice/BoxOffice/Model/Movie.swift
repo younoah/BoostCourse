@@ -73,7 +73,7 @@ struct MovieDetail: Decodable {
     let image: String
     let synopsis, genre: String
     
-    var movieGrade: String {
+    var gradeString: String {
         switch grade {
         case 0:
             return "ic_allages"
