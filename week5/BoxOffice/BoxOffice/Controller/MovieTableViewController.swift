@@ -110,7 +110,7 @@ extension MovieTableViewController: UITableViewDelegate {
         guard let movieDetailViewController = self.storyboard?.instantiateViewController(identifier: "MovieDetailViewController") as? MovieDetailViewController else {
             return
         }
-        
+
         CurrentMovieInfo.shared.movieID = movies[indexPath.row].id
         CurrentMovieInfo.shared.movieName = movies[indexPath.row].title
         CurrentMovieInfo.shared.movieGrade = movies[indexPath.row].gradeString

@@ -14,30 +14,43 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="한줄평" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4i-oU-Hud">
-                    <rect key="frame" x="14" y="14" width="45" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S8E-L0-poZ">
-                    <rect key="frame" x="282" y="13" width="23" height="23"/>
-                    <state key="normal" image="btn_compose"/>
-                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nua-OF-TlV">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="한줄평" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4i-oU-Hud">
+                            <rect key="frame" x="20" y="10" width="44.5" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S8E-L0-poZ">
+                            <rect key="frame" x="277" y="10" width="23" height="30"/>
+                            <state key="normal" image="btn_compose"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="n4i-oU-Hud" secondAttribute="bottom" constant="10" id="2Fa-EL-giS"/>
+                        <constraint firstItem="n4i-oU-Hud" firstAttribute="leading" secondItem="Nua-OF-TlV" secondAttribute="leading" constant="20" id="Ldh-In-w1f"/>
+                        <constraint firstAttribute="bottom" secondItem="S8E-L0-poZ" secondAttribute="bottom" constant="10" id="Mao-R6-ypp"/>
+                        <constraint firstAttribute="trailing" secondItem="S8E-L0-poZ" secondAttribute="trailing" constant="20" id="NGZ-cR-4QF"/>
+                        <constraint firstItem="S8E-L0-poZ" firstAttribute="top" secondItem="Nua-OF-TlV" secondAttribute="top" constant="10" id="Zen-JG-irl"/>
+                        <constraint firstItem="n4i-oU-Hud" firstAttribute="top" secondItem="Nua-OF-TlV" secondAttribute="top" constant="10" id="cFP-DY-Qgz"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="S8E-L0-poZ" secondAttribute="trailing" constant="15" id="W9J-ej-haK"/>
-                <constraint firstItem="n4i-oU-Hud" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="14" id="Wr8-If-SB5"/>
-                <constraint firstItem="n4i-oU-Hud" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="14" id="w8w-m8-KZG"/>
-                <constraint firstItem="S8E-L0-poZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="13" id="y6a-ne-Zsi"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Nua-OF-TlV" secondAttribute="trailing" id="J8h-11-pEA"/>
+                <constraint firstItem="Nua-OF-TlV" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="JHg-bp-dUe"/>
+                <constraint firstItem="Nua-OF-TlV" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Uys-M6-msK"/>
+                <constraint firstAttribute="bottom" secondItem="Nua-OF-TlV" secondAttribute="bottom" id="pPU-Nc-Oys"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="writeButton" destination="S8E-L0-poZ" id="JTj-dR-RLZ"/>
             </connections>
-            <point key="canvasLocation" x="138" y="109"/>
+            <point key="canvasLocation" x="131.8840579710145" y="107.8125"/>
         </view>
     </objects>
     <resources>

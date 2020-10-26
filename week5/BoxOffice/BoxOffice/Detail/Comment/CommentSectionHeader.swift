@@ -10,6 +10,7 @@ import UIKit
 class CommentSectionHeader: UITableViewHeaderFooterView {
     
     @IBOutlet weak var writeButton: UIButton!
-
+    
+    var completionHandler: (() -> (Void))?
     
 }

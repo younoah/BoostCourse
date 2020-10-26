@@ -25,48 +25,10 @@ class MovieDetailViewController: UIViewController {
     // MARK:- View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.dataSource = self
-        tableView.delegate = self
-//        tableView.isHidden = true
         
-        navigationItem.title = "영화제목"
-        
-        tableView.register(
-            UINib(nibName: "MovieDetailInfomationTableViewCell", bundle: nil),
-            forCellReuseIdentifier: "movieDetailInformationCell"
-        )
-        tableView.register(
-            UINib(nibName: "MovieSynopsisTableViewCell", bundle: nil),
-            forCellReuseIdentifier: "movieSynopsisCell"
-        )
-        tableView.register(
-            UINib(nibName: "MovieDirectorTableViewCell", bundle: nil),
-            forCellReuseIdentifier: "movieDirectorCell"
-        )
-        tableView.register(
-            UINib(nibName: "CommentTableViewCell", bundle: nil),
-            forCellReuseIdentifier: "commentCell"
-        )
-        tableView.register(
-            UINib(nibName: "CommentSectionHeader", bundle: nil),
-            forCellReuseIdentifier: "commentHeader"
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didReceiveMovieDetialNotification(_:)),
-            name: API.DidReceiveMovieDetailNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.didReceiveCommentsNotification(_:)),
-            name: API.DidReceiveCommentsNotification,
-            object: nil
-        )
-
+        setNavigation()
+        setTableView()
+        setNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -85,6 +47,57 @@ class MovieDetailViewController: UIViewController {
         
     }
 
+}
+
+// MARK:- Configure
+extension MovieDetailViewController {
+    
+    func setNavigation() {
+        navigationItem.title = "영화제목"
+    }
+    
+    func setTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+//        tableView.isHidden = true
+        
+        tableView.register(
+            UINib(nibName: String(describing: MovieDetailInfomationTableViewCell.self), bundle: nil),
+            forCellReuseIdentifier: String(describing: MovieDetailInfomationTableViewCell.self)
+        )
+        tableView.register(
+            UINib(nibName: String(describing: MovieSynopsisTableViewCell.self), bundle: nil),
+            forCellReuseIdentifier: String(describing: MovieSynopsisTableViewCell.self)
+        )
+        tableView.register(
+            UINib(nibName: String(describing: MovieDirectorTableViewCell.self), bundle: nil),
+            forCellReuseIdentifier: String(describing: MovieDirectorTableViewCell.self)
+        )
+        tableView.register(
+            UINib(nibName: String(describing: CommentTableViewCell.self), bundle: nil),
+            forCellReuseIdentifier: String(describing: CommentTableViewCell.self)
+        )
+        tableView.register(
+            UINib(nibName: String(describing: CommentSectionHeader.self), bundle: nil),
+            forHeaderFooterViewReuseIdentifier: String(describing: CommentSectionHeader.self)
+        )
+    }
+    
+    func setNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didReceiveMovieDetialNotification(_:)),
+            name: API.DidReceiveMovieDetailNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.didReceiveCommentsNotification(_:)),
+            name: API.DidReceiveCommentsNotification,
+            object: nil
+        )
+    }
 }
 
 // MARK:- Methods
@@ -116,6 +129,14 @@ extension MovieDetailViewController {
 //        indicatorView.startAnimating()
 //    }
     
+    @objc func touchUpWriteButton() {
+        guard let commentViewController = self.storyboard?.instantiateViewController(identifier: String(describing: CommentViewController.self)) as? CommentViewController else {
+            return
+        }
+        
+        navigationController?.pushViewController(commentViewController, animated: true)
+    }
+    
 }
 
 // MARK:- Table View DataSource
@@ -143,10 +164,12 @@ extension MovieDetailViewController: UITableViewDataSource {
         switch sectionIndex {
         case 0:
             guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: "movieDetailInformationCell",
+                    withIdentifier: String(describing: MovieDetailInfomationTableViewCell.self),
                     for: indexPath) as? MovieDetailInfomationTableViewCell else {
                 return UITableViewCell()
             }
+            // 셀 선택효과 제거
+            cell.selectionStyle = .none
             cell.movieTitleLabel.text = movie?.title
             // 언래핑 수정하기
             cell.movieGradeImageView.image = UIImage(named: movie?.gradeString ?? "")
@@ -172,26 +195,32 @@ extension MovieDetailViewController: UITableViewDataSource {
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: "movieSynopsisCell",
+                    withIdentifier: String(describing: MovieSynopsisTableViewCell.self),
                     for: indexPath) as? MovieSynopsisTableViewCell else {
                 return UITableViewCell()
             }
+            // 셀 선택효과 제거
+            cell.selectionStyle = .none
             cell.synopsisLabel.text = movie?.synopsis
             return cell
         case 2:
             guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: "movieDirectorCell",
+                    withIdentifier: String(describing: MovieDirectorTableViewCell.self),
                     for: indexPath) as? MovieDirectorTableViewCell else {
                 return UITableViewCell()
             }
+            // 셀 선택효과 제거
+            cell.selectionStyle = .none
             cell.directorLabel.text = movie?.director
             return cell
         case 3:
             guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: "commentCell",
+                    withIdentifier: String(describing: CommentTableViewCell.self),
                     for: indexPath) as? CommentTableViewCell else {
                 return UITableViewCell()
             }
+            // 셀 선택효과 제거
+            cell.selectionStyle = .none
             cell.writerNameLabel.text = comments[indexPath.row].writer
             cell.contentLabel.text = comments[indexPath.row].contents
             cell.movieGradeLabel.text = "평점 : \(comments[indexPath.row].rating)"
@@ -213,6 +242,9 @@ extension MovieDetailViewController: UITableViewDelegate {
             guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: String(describing: CommentSectionHeader.self)) as? CommentSectionHeader else {
                 return UIView()
             }
+            
+            header.writeButton.addTarget(self, action: #selector(touchUpWriteButton), for: .touchUpInside)
+            
             return header
 
         } else {
@@ -235,12 +267,35 @@ extension MovieDetailViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let commentViewController = self.storyboard?.instantiateViewController(identifier: "commentViewController") as? CommentViewController else {
-            return
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        switch section {
+        case 0, 1, 2:
+            return 0
+        case 3:
+            return 50
+        default:
+            return 0
         }
-        
-        navigationController?.pushViewController(commentViewController, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        switch section {
+        case 0, 1, 2:
+            return 10
+        case 3:
+            return 0
+        default:
+            return 0
+        }
+    }
+    
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard let commentViewController = self.storyboard?.instantiateViewController(identifier: String(describing: CommentViewController.self)) as? CommentViewController else {
+//            return
+//        }
+//
+//        navigationController?.pushViewController(commentViewController, animated: true)
+//    }
+    
 }
+

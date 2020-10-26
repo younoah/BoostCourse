@@ -79,7 +79,7 @@
         <!--Comment View Controller-->
         <scene sceneID="FJa-vg-aMs">
             <objects>
-                <viewController storyboardIdentifier="commentViewController" id="hpO-Zq-uwY" customClass="CommentViewController" customModule="BoxOffice" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CommentViewController" id="hpO-Zq-uwY" customClass="CommentViewController" customModule="BoxOffice" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GAf-ET-fw2">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

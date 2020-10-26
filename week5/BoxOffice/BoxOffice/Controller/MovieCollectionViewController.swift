@@ -110,6 +110,7 @@ extension MovieCollectionViewController: UICollectionViewDataSource {
 extension MovieCollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
         guard let movieDetailViewController = storyboard?.instantiateViewController(withIdentifier: "MovieDetailViewController") as? MovieDetailViewController else {
             return
         }
